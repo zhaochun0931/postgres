@@ -12,7 +12,7 @@ CREATE ROLE replicator_user WITH REPLICATION LOGIN PASSWORD 'replicator_password
 
 
 
-
+select pg_is_in_recovery();
 
 gemfire_db=# \x
 Expanded display is off.
