@@ -1,0 +1,159 @@
+The PostgreSQL disk layout
+
+├── base
+├── global
+├── pg_commit_ts
+├── pg_dynshmem
+├── pg_hba.conf
+├── pg_ident.conf
+├── pg_logical
+├── pg_multixact
+├── pg_notify
+├── pg_replslot
+├── pg_serial
+├── pg_snapshots
+├── pg_stat
+├── pg_stat_tmp
+├── pg_subtrans
+├── pg_tblspc
+├── pg_twophase
+├── PG_VERSION
+├── pg_wal
+├── pg_xact
+├── postgresql.auto.conf
+└── postgresql.conf
+
+
+
+
+base - the actual data directory
+It actually contains the real data (that is, tables, indexes, and so on). Inside the base directory, each database will have its own subdirectory
+
+
+
+postgres=# SELECT oid, datname FROM pg_database;
+  oid  |  datname
+-------+-----------
+     5 | postgres
+     1 | template1
+     4 | template0
+ 16389 | gemfire
+(4 rows)
+
+postgres=#
+
+
+
+In PostgreSQL, each table is related to (at least) one data file.
+
+gemfire=# SELECT relfilenode, relname FROM pg_class WHERE relname = 't_test';
+ relfilenode | relname
+-------------+---------
+       16390 | t_test
+(1 row)
+
+gemfire=#
+
+
+
+As soon as the table is created, PostgreSQL will create an empty file on the disk:
+
+$ ls -al /var/lib/postgresql/17/main/base/16389/16390
+-rw------- 1 postgres postgres 0 Dec 14 03:16 /var/lib/postgresql/17/main/base/16389/16390
+$
+
+$ file /var/lib/postgresql/17/main/base/16389/16390
+/var/lib/postgresql/17/main/base/16389/16390: data
+$
+
+
+$ pg_filedump /var/lib/postgresql/17/main/base/16389/16390
+
+*******************************************************************
+* PostgreSQL File/Block Formatted Dump Utility
+*
+* File: /var/lib/postgresql/17/main/base/16389/16390
+* Options used: None
+*******************************************************************
+
+Block    0 ********************************************************
+<Header> -----
+ Block Offset: 0x00000000         Offsets: Lower      36 (0x0024)
+ Block: Size 8192  Version    4            Upper    8096 (0x1fa0)
+ LSN:  logid      0 recoff 0x01d66048      Special  8192 (0x2000)
+ Items:    3                      Free Space: 8060
+ Checksum: 0x0000  Prune XID: 0x00000000  Flags: 0x0000 ()
+ Length (including item array): 36
+
+<Data> -----
+ Item   1 -- Length:   28  Offset: 8160 (0x1fe0)  Flags: NORMAL
+ Item   2 -- Length:   28  Offset: 8128 (0x1fc0)  Flags: NORMAL
+ Item   3 -- Length:   28  Offset: 8096 (0x1fa0)  Flags: NORMAL
+
+
+*** End of File Encountered. Last Block Read: 0 ***
+$
+
+
+
+
+
+
+
+global - the global data
+The global directory will contain the global system tables. This directory is small.
+
+
+
+
+
+
+
+
+pg_hba.conf - host-based network configuration
+The pg_hba.conf file configures the PostgreSQL's internal firewall and represents one of the two most important configuration files in a PostgreSQL cluster.
+
+
+
+pg_ident.conf - ident authentication
+The pg_ident.conf file can be used in conjunction with the pg_hba.conf file to configure ident authentication.
+
+
+
+postgresql.conf - the central PostgreSQL configuration file
+Finally, there is the main PostgreSQL configuration file. All configuration parameters can be changed in postgresql.conf
+
+
+
+
+If you happen to use prebuilt binaries, you might not find postgresql.conf directly inside your data directory. It is more likely to be located in some subdirectory of /etc/ (on Linux/Unix). The precise location is highly dependent on the type of operating system you are using. The typical location of data directories is /var/lib/pgsql/data, but postgresql.conf is often located under /etc/postgresql/9.X/main/postgresql.conf (as in Ubuntu and similar systems), or under /etc directly.
+
+
+
+default two tablespaces to stores all system data.
+- pg_default
+- pg_global
+
+
+postgres=# \db
+       List of tablespaces
+    Name    |  Owner   | Location
+------------+----------+----------
+ pg_default | postgres |
+ pg_global  | postgres |
+(2 rows)
+
+postgres=#
+
+
+
+
+
+table
+Tables form the building block of relational-database storage.
+
+
+
+index
+
+
