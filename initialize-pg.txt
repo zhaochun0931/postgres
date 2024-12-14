@@ -1,19 +1,38 @@
-initdb creates a new PostgreSQL database cluster.
-
-Creating a database cluster consists of creating the directories in which the cluster data will live, generating the shared catalog tables (tables that belong to the whole cluster rather than to any particular database), and creating the postgres, template1, and template0 databases. 
-
-The postgres database is a default database meant for use by users, utilities and third party applications. 
-template1 and template0 are meant as source databases to be copied by later CREATE DATABASE commands. template0 should never be modified, but you can add objects to template1, which by default will be copied into databases created later.
+- initialize a database (initdb command)
+- start up a database
 
 
+After initialization, three databases should be created automatically. 
+- postgres
+- template0
+- template1
+
+
+postgres=# \l
+                                                     List of databases
+   Name    |  Owner   | Encoding | Locale Provider |   Collate   |    Ctype    | Locale | ICU Rules |   Access privileges
+-----------+----------+----------+-----------------+-------------+-------------+--------+-----------+-----------------------
+ postgres  | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |        |           |
+ template0 | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |        |           | =c/postgres          +
+           |          |          |                 |             |             |        |           | postgres=CTc/postgres
+ template1 | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |        |           | =c/postgres          +
+           |          |          |                 |             |             |        |           | postgres=CTc/postgres
+(3 rows)
+
+postgres=#
 
 
 
-Before you can do anything, you must initialize a database storage area on disk.
+template0 should never be modified, but you can add objects to template1, which by default will be copied into databases created later
 
-A database cluster is a collection of databases that is managed by a single instance of a running database server. After initialization, a database cluster will contain a database named postgres
 
-Another database created within each cluster during initialization is called template1
+
+
+
+
+
+
+
 
 
 
