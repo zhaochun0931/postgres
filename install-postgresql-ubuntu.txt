@@ -52,6 +52,17 @@ You can now start the database server using:
 
 
 
+/etc/postgresql/17/main
+
+├── conf.d
+├── environment
+├── pg_ctl.conf
+├── pg_hba.conf
+├── pg_ident.conf
+├── postgresql.conf
+└── start.conf
+
+
 
 
 
