@@ -20,6 +20,11 @@ psql -h <remote_host> -p 5432 -U <username> -d <database>
 
 
 SELECT name, setting, source FROM pg_settings;
+alter system set listen_addresses = '*';
+
+/usr/lib/postgresql/17/bin/pg_ctl restart -D /var/lib/postgresql/17/main
+
+
 
 
 
