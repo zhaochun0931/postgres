@@ -96,8 +96,8 @@ port = 5432
 
 
 # start the database server
-/usr/lib/postgresql/17/bin/pg_ctl -D /tmp/xxx -l logfile start
-/usr/lib/postgresql/17/bin/pg_ctl -D /tmp/yyy -l logfile start
+/usr/lib/postgresql/17/bin/pg_ctl -D /tmp/xxx -l xxxlogfile start
+/usr/lib/postgresql/17/bin/pg_ctl -D /tmp/yyy -l yyylogfile start
 
 
 /usr/lib/postgresql/17/bin/pg_ctl -D /tmp/xxx stop
