@@ -1,0 +1,3 @@
+pg_basebackup -h localhost -p 5433 -U replicator_user -D /tmp/yyy -Fp -Xs -P
+
+touch /tmp/yyy/standby.signal
