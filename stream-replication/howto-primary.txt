@@ -1,1 +1,1 @@
-sss
+CREATE ROLE replicator_user WITH REPLICATION LOGIN PASSWORD 'replicator_password';
