@@ -1,1 +1,7 @@
+mkdir -p /data/primary
+mkdir -p /data/standby
+
+/usr/lib/postgresql/17/bin/initdb -D /data/primary
+
+
 CREATE ROLE replicator_user WITH REPLICATION LOGIN PASSWORD 'replicator_password';
