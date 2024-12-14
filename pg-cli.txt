@@ -16,7 +16,10 @@ psql -h <remote_host> -p 5432 -U <username> -d <database>
 
 
 \pset pager off
+\pset columns 200
 
+
+SELECT name, setting, source FROM pg_settings;
 
 
 
