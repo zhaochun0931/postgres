@@ -9,3 +9,35 @@ su - postgres
 /usr/lib/postgresql/17/bin/pg_ctl -D /data/primary -l xxxlogfile start
 psql -p 5433
 CREATE ROLE replicator_user WITH REPLICATION LOGIN PASSWORD 'replicator_password';
+
+
+
+
+
+gemfire_db=# \x
+Expanded display is off.
+gemfire_db=#
+gemfire_db=# SELECT * FROM pg_stat_replication;
+-[ RECORD 1 ]----+------------------------------
+pid              | 1593
+usesysid         | 16388
+usename          | replicator_user
+application_name | walreceiver
+client_addr      | 127.0.0.1
+client_hostname  |
+client_port      | 44390
+backend_start    | 2024-12-14 15:16:40.135732+00
+backend_xmin     |
+state            | streaming
+sent_lsn         | 0/344A290
+write_lsn        | 0/344A290
+flush_lsn        | 0/344A290
+replay_lsn       | 0/344A290
+write_lag        |
+flush_lag        |
+replay_lag       |
+sync_priority    | 0
+sync_state       | async
+reply_time       | 2024-12-14 15:23:16.560583+00
+
+gemfire_db=#
