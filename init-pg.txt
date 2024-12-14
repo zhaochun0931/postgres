@@ -1,0 +1,90 @@
+initdb creates a new PostgreSQL database cluster.
+
+Creating a database cluster consists of creating the directories in which the cluster data will live, generating the shared catalog tables (tables that belong to the whole cluster rather than to any particular database), and creating the postgres, template1, and template0 databases. 
+
+The postgres database is a default database meant for use by users, utilities and third party applications. 
+template1 and template0 are meant as source databases to be copied by later CREATE DATABASE commands. template0 should never be modified, but you can add objects to template1, which by default will be copied into databases created later.
+
+
+
+
+
+Before you can do anything, you must initialize a database storage area on disk.
+
+A database cluster is a collection of databases that is managed by a single instance of a running database server. After initialization, a database cluster will contain a database named postgres
+
+Another database created within each cluster during initialization is called template1
+
+
+
+
+In file system terms, a database cluster is a single directory under which all data will be stored.
+
+
+There is no default, although locations such as /usr/local/pgsql/data or /var/lib/pgsql/data are popular
+
+
+# initialize a database cluster
+To initialize a database cluster, use the command initdb, which is installed with PostgreSQL. The desired file system location of your database cluster is indicated by the -D option, for example:
+initdb -D /usr/local/pgsql/data
+
+
+Alternatively, you can run initdb via the pg_ctl program like so:
+pg_ctl -D /usr/local/pgsql/data initdb
+
+
+
+# starting the Database Server
+Before anyone can access the database, you must start the database server.
+
+The database server program is called postgres
+
+postgres -D /usr/local/pgsql/data
+
+postgres -D /usr/local/pgsql/data >logfile 2>&1 &
+
+
+
+
+
+
+
+
+
+
+
+# initialize the cluster
+su - postgres
+
+mkdir /tmp/xxx
+mkdir /tmp/yyy
+
+/usr/lib/postgresql/17/bin/initdb -D /tmp/xxx
+/usr/lib/postgresql/17/bin/initdb -D /tmp/yyy
+
+
+
+
+make sure the port is unique in the postgresql.conf of each directory (/tmp/xxx, /tmp/yyy)
+
+port = 5432
+
+
+
+
+
+
+
+
+# start the database server
+/usr/lib/postgresql/17/bin/pg_ctl -D /tmp/xxx -l logfile start
+/usr/lib/postgresql/17/bin/pg_ctl -D /tmp/yyy -l logfile start
+
+
+/usr/lib/postgresql/17/bin/pg_ctl -D /tmp/xxx stop
+
+
+
+
+psql -p 5432
+psql -p 5433
