@@ -1,3 +1,6 @@
 pg_basebackup -h localhost -p 5433 -U replicator_user -D /data/standby -Fp -Xs -P
 
 touch /data/standby/standby.signal
+
+
+/usr/lib/postgresql/17/bin/pg_ctl -D /data/standby -l yyylogfile start
