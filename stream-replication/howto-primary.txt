@@ -6,4 +6,6 @@ su - postgres
 /usr/lib/postgresql/17/bin/initdb -D /data/primary
 
 
+/usr/lib/postgresql/17/bin/pg_ctl -D /data/primary -l xxxlogfile start
+psql -p 5433
 CREATE ROLE replicator_user WITH REPLICATION LOGIN PASSWORD 'replicator_password';
