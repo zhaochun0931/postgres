@@ -4,3 +4,29 @@ touch /data/standby/standby.signal
 
 
 /usr/lib/postgresql/17/bin/pg_ctl -D /data/standby -l yyylogfile start
+
+
+
+
+gemfire_db=# \x
+Expanded display is on.
+gemfire_db=#
+gemfire_db=# SELECT * FROM pg_stat_wal_receiver;
+-[ RECORD 1 ]---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+pid                   | 1592
+status                | streaming
+receive_start_lsn     | 0/3000000
+receive_start_tli     | 1
+written_lsn           | 0/344A290
+flushed_lsn           | 0/344A290
+received_tli          | 1
+last_msg_send_time    | 2024-12-14 15:24:36.603017+00
+last_msg_receipt_time | 2024-12-14 15:24:36.603105+00
+latest_end_lsn        | 0/344A290
+latest_end_time       | 2024-12-14 15:23:06.556519+00
+slot_name             |
+sender_host           | localhost
+sender_port           | 5433
+conninfo              | user=replicator_user password=******** channel_binding=prefer dbname=replication host=localhost port=5433 fallback_application_name=walreceiver sslmode=prefer sslnegotiation=postgres sslcompression=0 sslcertmode=allow sslsni=1 ssl_min_protocol_version=TLSv1.2 gssencmode=prefer krbsrvname=postgres gssdelegation=0 target_session_attrs=any load_balance_hosts=disable
+
+gemfire_db=#
