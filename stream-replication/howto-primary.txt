@@ -1,6 +1,8 @@
-mkdir -p /data/primary
-mkdir -p /data/standby
+mkdir -p /data/primary /data/standby
+chown -R postgres:postgres data/
 
+
+su - postgres
 /usr/lib/postgresql/17/bin/initdb -D /data/primary
 
 
