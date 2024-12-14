@@ -1,0 +1,39 @@
+The primary mechanism that PostgreSQL uses to provide a data durability guarantee is through its Write Ahead Log (WAL). 
+All transactional data is written to this location before ever being committed to database files. 
+Once WAL files are no longer necessary for crash recovery, PostgreSQL will either delete or archive them.
+
+
+
+
+Determine Your Replication Setup
+
+
+Decide whether you are setting up:
+- Streaming replication (common for real-time replication).
+- Point-in-time recovery (PITR) using WAL files from an archive.
+
+
+
+If Setting Up Streaming Replication
+Ensure the recovery.signal File Exists
+The recovery.signal file enables standby mode. Without this file, PostgreSQL expects a restore_command.
+
+
+
+
+If Using WAL Archiving (PITR)
+Set restore_command in postgresql.conf
+A restore_command specifies how to fetch archived WAL files. For example:
+restore_command = 'cp /path/to/wal_archive/%f %p'
+
+Replace /path/to/wal_archive with the location of your archived WAL files.
+
+Remove the recovery.signal File
+
+
+
+
+
+archive_mode
+we enable archive_mode by setting it to on. With archive mode enabled, we can specify a command that will execute when PostgreSQL no longer needs a WAL file for crash recovery.
+In the archive_command setting, the %p value represents the full path to the WAL file, and %f resolves to the filename
