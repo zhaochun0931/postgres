@@ -9,6 +9,14 @@ psql -h <remote_host> -p 5432 -U <username> -d <database>
 
 
 
+select version();
+
+
+
+
+
+
+
 
 
 
