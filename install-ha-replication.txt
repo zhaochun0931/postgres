@@ -12,7 +12,7 @@ su - postgres
 
 psql
 
-CREATE ROLE replicator_user WITH REPLICATION LOGIN PASSWORD 'replicator_password';
+CREATE ROLE replication_user WITH REPLICATION LOGIN PASSWORD 'replication_password';
 
 SELECT * FROM pg_create_physical_replication_slot('replication_slot');
 
