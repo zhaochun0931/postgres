@@ -1,0 +1,58 @@
+PostgreSQL supports several partitioning strategies:
+
+1. Range List
+2. Hash Range Partitioning
+
+
+Beyond traditional partitioning, PostgreSQL supports vertical and horizontal partitioning
+
+
+
+
+
+
+
+
+
+CREATE TABLE sales (
+    id serial,
+    sale_date date NOT NULL,
+    amount numeric NOT NULL,
+    PRIMARY KEY (id, sale_date)  -- Include sale_date in the primary key
+) PARTITION BY RANGE (sale_date);
+
+
+# Create individual partitions
+
+CREATE TABLE sales_jan PARTITION OF sales FOR VALUES FROM ('2025-01-01') TO ('2025-01-31');
+
+CREATE TABLE sales_mar PARTITION OF sales FOR VALUES FROM ('2025-03-01') TO ('2025-03-31');
+
+
+
+INSERT INTO sales (id, sale_date, amount) VALUES (1, '2025-01-15', 100);
+INSERT INTO sales (id, sale_date, amount) VALUES (2, '2025-03-10', 150);
+INSERT INTO sales (id, sale_date, amount) VALUES (3, '2025-03-19', 150);
+INSERT INTO sales (id, sale_date, amount) VALUES (4, '2025-01-10', 150);
+INSERT INTO sales (id, sale_date, amount) VALUES (5, '2025-03-06', 150);
+
+
+
+
+mydatabase=# select * from sales_jan;
+ id | sale_date  | amount
+----+------------+--------
+  1 | 2025-01-15 |    100
+  4 | 2025-01-10 |    150
+(2 rows)
+
+mydatabase=# select * from sales_mar;
+ id | sale_date  | amount
+----+------------+--------
+  2 | 2025-03-10 |    150
+  3 | 2025-03-19 |    150
+  5 | 2025-03-06 |    150
+(3 rows)
+
+mydatabase=#
+
