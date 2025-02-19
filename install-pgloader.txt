@@ -1,0 +1,10 @@
+apt install -y pgloader
+
+
+
+pgloader --version
+
+# pgloader --version
+pgloader version "3.6.10~devel"
+compiled with SBCL 2.0.1.debian
+#
