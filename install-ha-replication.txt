@@ -18,6 +18,9 @@ SELECT * FROM pg_create_physical_replication_slot('replication_slot');
 
 select pg_is_in_recovery();
 
+SELECT * FROM pg_stat_replication;
+
+
 gemfire_db=# \x
 Expanded display is off.
 gemfire_db=#
