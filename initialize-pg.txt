@@ -8,6 +8,22 @@ After initialization, three databases should be created automatically.
 - template1
 
 
+
+
+
+su - postgres
+psql
+
+
+$ psql
+psql (17.2 (Ubuntu 17.2-1.pgdg20.04+1))
+Type "help" for help.
+
+postgres=#
+
+
+
+
 postgres=# \l
                                                      List of databases
    Name    |  Owner   | Encoding | Locale Provider |   Collate   |    Ctype    | Locale | ICU Rules |   Access privileges
