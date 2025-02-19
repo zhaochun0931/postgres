@@ -14,7 +14,7 @@ psql
 
 CREATE ROLE replicator_user WITH REPLICATION LOGIN PASSWORD 'replicator_password';
 
-
+SELECT * FROM pg_create_physical_replication_slot('replication_slot');
 
 select pg_is_in_recovery();
 
