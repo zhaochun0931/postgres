@@ -67,7 +67,7 @@ You can now start the database server using:
 
 
 
-The default postgres user in PostgreSQL does not have a predefined password after installation. You should set a password for the postgres user.
+After installing PostgreSQL, there is no default password set for the postgres user.  You should set a password for the postgres user.
 
 ALTER USER postgres PASSWORD 'newpassword';
 
