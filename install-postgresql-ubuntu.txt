@@ -67,8 +67,13 @@ You can now start the database server using:
 
 
 
-The default postgres user in PostgreSQL does not have a predefined password after installation.
+The default postgres user in PostgreSQL does not have a predefined password after installation. You should set a password for the postgres user.
+
 ALTER USER postgres PASSWORD 'newpassword';
+
+
+
+
 
 
 /etc/postgresql/12/main/postgresql.conf
