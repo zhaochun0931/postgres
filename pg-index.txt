@@ -3,26 +3,26 @@ Indexing significantly impacts the query performance and overall efficiency.
 
 
 
-B-tree Indexing
+1. B-tree Indexing
 This is a default indexing technique in PostgreSQL, optimized for data that can be sorted, such as numbers or text. It suitable for range queries and generalpurpose indexing.
 
 
 
-Hash Indexing
+2. Hash Indexing
 This is an indexing method that uses hash functions, optimized for equality comparisons. It is considered ideal for queries that involve exact matches on indexed columns.
 
 
-GiST Indexing (Generalized Search Tree)
+3. GiST Indexing (Generalized Search Tree)
 This one supports complex data types and custom search algorithms. It is very useful for geometric shapes, text search, and other complex data types.
 
 
-SP-GiST Indexing (Space-Partitioned Generalized Search Tree)
+4. SP-GiST Indexing (Space-Partitioned Generalized Search Tree)
 This one is primarily optimized for spatial data and other partitioned datasets. And it is found to be very effective for spatial indexing and hierarchical data.
 
 
-GIN Indexing (Generalized Inverted Index)
+5. GIN Indexing (Generalized Inverted Index)
 
 
-BRIN Indexing (Block Range INdex)
+6. BRIN Indexing (Block Range INdex)
 
 
