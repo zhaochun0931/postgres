@@ -1,6 +1,7 @@
-wget https://ftp.postgresql.org/pub/source/v16.3/postgresql-16.3.tar.bz2
+wget https://ftp.postgresql.org/pub/source/v17.2/postgresql-17.2.tar.gz
 
-
+md5sum postgresql-17.2.tar.gz
+181495ea481f49412d6ec026c8f3f14c  postgresql-17.2.tar.gz
 
 
 
@@ -20,13 +21,16 @@ cd postgresql-16.3
 ./configure
 make
 make install
-
-
-
-
-
 adduser postgres
 mkdir -p /usr/local/pgsql/data
 chown postgres /usr/local/pgsql/data
 su - postgres
+
+
+/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data/
+/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data/ -l logfile start
+/usr/local/pgsql/bin/createdb gemfire_db
+/usr/local/pgsql/bin/psql gemfire_db
+
+
 
