@@ -154,6 +154,8 @@ select * from gp_segment_configuration order by 1;
 pg_dump gemfire_db > gemfire_db.dump
 pg_dumpall
 
+pg_dump -U postgres -W -F t -f database_name_backup.tar database_name
+
 
 
 
