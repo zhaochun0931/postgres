@@ -1,0 +1,8 @@
+Indexing significantly impacts the query performance and overall efficiency.
+
+
+
+
+B-tree Indexing
+
+This is a default indexing technique in PostgreSQL, optimized for data that can be sorted, such as numbers or text. It suitable for range queries and generalpurpose indexing.
