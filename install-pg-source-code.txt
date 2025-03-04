@@ -28,8 +28,8 @@ make install
 adduser postgres
 
 
-mkdir -p /data
-chown -R postgres:postgres /data
+mkdir -p /data1 /data2
+chown -R postgres:postgres /data1 /data2
 
 
 
@@ -39,9 +39,8 @@ su - postgres
 export PATH=/usr/local/pgsql/bin:$PATH
 
 
-initdb -D /data/
-
-pg_ctl -D /data/ -l logfile start
+initdb -D /data1/
+pg_ctl -D /data1/ -l logfile start
 
 
 createdb testdb
@@ -49,4 +48,11 @@ createdb testdb
 psql testdb
 
 
+
+
+
+
+
+initdb -D /data2/
+pg_ctl -D /data2 -o '-p 5433' -l logfile start
 
