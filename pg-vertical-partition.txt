@@ -5,6 +5,13 @@ Vertical Partitioning involves splitting a table into multiple tables based on c
 
 
 DROP TABLE IF EXISTS test_table;
+DROP TABLE IF EXISTS test_table_name;
+DROP TABLE IF EXISTS test_table_age;
+
+
+
+
+
 
 
 
@@ -17,6 +24,12 @@ CREATE TABLE test_table (
     age INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+
+select count(*) from test_table;
+
+
 
 -- Insert 1 million rows into test_table using generate_series
 INSERT INTO test_table (name, age)
