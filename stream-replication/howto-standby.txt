@@ -1,18 +1,9 @@
-pg_basebackup -h localhost -p 5433 -U replicator_user -D /data/standby -Fp -Xs -P
 
-touch /data/standby/standby.signal
-
-
-/usr/lib/postgresql/17/bin/pg_ctl -D /data/standby -l yyylogfile start
-
-
-
-select pg_is_in_recovery();
 
 gemfire_db=# \x
 Expanded display is on.
 gemfire_db=#
-gemfire_db=# SELECT * FROM pg_stat_wal_receiver;
+gemfire_db=# 
 -[ RECORD 1 ]---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 pid                   | 1592
 status                | streaming
