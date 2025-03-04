@@ -10,6 +10,11 @@ su - postgres
 
 
 
+
+# primary
+
+
+
 psql
 
 CREATE ROLE replication_user WITH REPLICATION LOGIN PASSWORD 'replication_password';
@@ -48,3 +53,12 @@ sync_state       | async
 reply_time       | 2024-12-14 15:23:16.560583+00
 
 gemfire_db=#
+
+
+
+# standby
+
+pg_basebackup -h localhost -p 5432 -U replication_user -D /data2 -Fp -Xs -P
+
+
+
