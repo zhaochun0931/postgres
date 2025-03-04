@@ -6,3 +6,14 @@ The concept of roles subsumes the concepts of “users” and “groups”.
 
 
 
+CREATE ROLE xxx LOGIN;
+CREATE USER yyy;
+
+
+(CREATE USER is equivalent to CREATE ROLE except that CREATE USER includes LOGIN by default, while CREATE ROLE does not.)
+
+
+
+
+SELECT rolname FROM pg_roles;
+SELECT rolname FROM pg_roles WHERE rolcanlogin;
