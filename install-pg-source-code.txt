@@ -26,15 +26,27 @@ cd postgresql-17.4
 make
 make install
 adduser postgres
-mkdir -p /usr/local/pgsql/data
-chown postgres /usr/local/pgsql/data
+
+
+mkdir -p /data
+chown -R postgres:postgres /data
+
+
+
+
 su - postgres
 
+export PATH=/usr/local/pgsql/bin:$PATH
 
-/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data/
-/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data/ -l logfile start
-/usr/local/pgsql/bin/createdb gemfire_db
-/usr/local/pgsql/bin/psql gemfire_db
+
+initdb -D /data/
+
+pg_ctl -D /data/ -l logfile start
+
+
+createdb testdb
+
+psql testdb
 
 
 
