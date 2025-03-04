@@ -1,7 +1,8 @@
-wget https://ftp.postgresql.org/pub/source/v17.2/postgresql-17.2.tar.gz
+wget https://ftp.postgresql.org/pub/source/v17.4/postgresql-17.4.tar.gz
 
-md5sum postgresql-17.2.tar.gz
-181495ea481f49412d6ec026c8f3f14c  postgresql-17.2.tar.gz
+
+md5sum postgresql-17.4.tar.gz
+6c6cb3f34286ca839077176b714f494d  postgresql-17.4.tar.gz
 
 
 
@@ -16,8 +17,11 @@ apt-get install -y build-essential libreadline-dev zlib1g-dev flex bison libxml2
 
 
 
-tar -xf postgresql-16.3.tar.bz2
-cd postgresql-16.3
+
+tar -xvf postgresql-17.4.tar.gz
+
+cd postgresql-17.4
+
 ./configure
 make
 make install
