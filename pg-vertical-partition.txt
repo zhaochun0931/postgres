@@ -1,0 +1,2 @@
+Vertical Partitioning involves splitting a table into multiple tables based on columns.
+
