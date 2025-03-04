@@ -4,13 +4,6 @@ Vertical Partitioning involves splitting a table into multiple tables based on c
 
 
 
-DROP TABLE IF EXISTS test_table;
-DROP TABLE IF EXISTS test_table_name;
-DROP TABLE IF EXISTS test_table_age;
-
-
-
-
 
 
 
@@ -82,6 +75,23 @@ SELECT id, age, created_at FROM test_table;
 
 EXPLAIN ANALYZE 
 SELECT * FROM test_table WHERE age = 25;
+
+
+
+
+
+
+
+
+DROP TABLE IF EXISTS test_table;
+DROP TABLE IF EXISTS test_table_name;
+DROP TABLE IF EXISTS test_table_age;
+
+
+
+
+
+
 
 
 
