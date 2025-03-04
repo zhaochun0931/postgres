@@ -26,3 +26,51 @@ This one is primarily optimized for spatial data and other partitioned datasets.
 6. BRIN Indexing (Block Range INdex)
 
 
+
+
+
+
+
+-- Create a new table for testing
+CREATE TABLE test_table (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    age INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert 1 million rows using generate_series
+INSERT INTO test_table (name, age)
+SELECT
+    'name_' || gs,
+    (gs % 100) + 18 -- age between 18 and 117
+FROM generate_series(1, 1000000) gs;
+
+
+
+
+
+-- Test query performance before indexing
+EXPLAIN ANALYZE 
+SELECT * FROM test_table WHERE age = 25;
+
+
+
+
+
+
+
+
+-- Create an index on the age column
+CREATE INDEX idx_age ON test_table (age);
+
+
+-- Test query performance after indexing
+EXPLAIN ANALYZE 
+SELECT * FROM test_table WHERE age = 25;
+
+
+
+
+
+
