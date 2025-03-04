@@ -1,0 +1,1 @@
+Horizontal Partitioning involves dividing a table into multiple tables based on rows, typically using techniques similar to standard partitioning strategies.
