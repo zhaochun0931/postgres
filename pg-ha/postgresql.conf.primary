@@ -1,14 +1,9 @@
-# Primary configuration
 listen_addresses = '*'
 wal_level = replica
 max_wal_senders = 10
 wal_keep_size = 64          # in megabytes, ensure WAL files are retained long enough
 
 
-
-# Standby configuration
-hot_standby = on
-primary_conninfo = 'host=localhost port=5432 user=replication_user password=replication_password'
 
 
 
