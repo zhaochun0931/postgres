@@ -2,10 +2,60 @@
 - start up a database
 
 
+1. Before you can do anything, you must initialize a database storage area on disk. We call this a database cluster.
+After initialization, a database cluster will contain a database named postgres. There are two more databases created within each cluster during initialization, named template1 and template0.
+
+In file system terms, a database cluster is a single directory under which all data will be stored. We call this the data directory or data area. 
+
+
+
+
+
+
 After initialization, three databases should be created automatically. 
 - postgres
 - template0
 - template1
+
+
+
+
+
+To initialize a database cluster manually, run initdb and specify the desired file system location of the database cluster with the -D option
+
+initdb -D /usr/local/pgsql/data
+
+
+
+
+Alternatively, you can run initdb via the pg_ctl program like so:
+
+pg_ctl -D /usr/local/pgsql/data initdb
+
+
+
+
+
+
+2. Before anyone can access the database, you must start the database server. The database server program is called postgres. 
+
+The bare-bones way to start the server manually is just to invoke postgres directly, specifying the location of the data directory with the -D option, for example:
+
+postgres -D /usr/local/pgsql/data
+
+
+$ postgres -D /data1
+2025-03-04 13:56:18.225 UTC [45968] LOG:  starting PostgreSQL 17.4 on aarch64-unknown-linux-gnu, compiled by gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, 64-bit
+2025-03-04 13:56:18.226 UTC [45968] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-03-04 13:56:18.229 UTC [45968] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-03-04 13:56:18.233 UTC [45973] LOG:  database system was shut down at 2025-03-04 13:55:59 UTC
+2025-03-04 13:56:18.235 UTC [45968] LOG:  database system is ready to accept connections
+
+
+
+
+
+
 
 
 
