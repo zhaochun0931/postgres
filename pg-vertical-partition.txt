@@ -1,2 +1,74 @@
 Vertical Partitioning involves splitting a table into multiple tables based on columns.
 
+
+
+
+
+DROP TABLE IF EXISTS test_table;
+
+
+
+
+
+-- Create the test_table
+CREATE TABLE test_table (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    age INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert 1 million rows into test_table using generate_series
+INSERT INTO test_table (name, age)
+SELECT
+    'name_' || gs,
+    (gs % 100) + 18  -- age between 18 and 117
+FROM generate_series(1, 1000000) gs;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Create partitioned tables
+CREATE TABLE test_table_name (
+    id SERIAL PRIMARY KEY,
+    name TEXT
+);
+
+CREATE TABLE test_table_age (
+    id INT PRIMARY KEY,
+    age INT,
+    created_at TIMESTAMP
+);
+
+
+
+
+
+
+-- Insert into the name partition
+INSERT INTO test_table_name (id, name)
+SELECT id, name FROM test_table;
+
+-- Insert into the age/created_at partition
+INSERT INTO test_table_age (id, age, created_at)
+SELECT id, age, created_at FROM test_table;
+
+
+
+
+
+EXPLAIN ANALYZE 
+SELECT * FROM test_table WHERE age = 25;
+
+
+
