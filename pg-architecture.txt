@@ -53,14 +53,17 @@ In PostgreSQL, each table is related to (at least) one data file.
 
 SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 'table_name';
 
-
-gemfire=# SELECT relfilenode, relname FROM pg_class WHERE relname = 't_test';
- relfilenode | relname
--------------+---------
-       16390 | t_test
+testdb=# SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 'student';
+ relname |  oid  | relfilenode
+---------+-------+-------------
+ student | 19039 |       16384
 (1 row)
 
-gemfire=#
+testdb=#
+
+
+
+
 
 
 
