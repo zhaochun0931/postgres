@@ -32,6 +32,10 @@ It actually contains the real data (that is, tables, indexes, and so on). Inside
 
 
 
+
+SELECT oid, datname FROM pg_database;
+
+
 postgres=# SELECT oid, datname FROM pg_database;
   oid  |  datname
 -------+-----------
@@ -46,6 +50,9 @@ postgres=#
 
 
 In PostgreSQL, each table is related to (at least) one data file.
+
+SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 'table_name';
+
 
 gemfire=# SELECT relfilenode, relname FROM pg_class WHERE relname = 't_test';
  relfilenode | relname
