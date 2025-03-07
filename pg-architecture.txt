@@ -62,6 +62,19 @@ testdb=# SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 'student
 testdb=#
 
 
+The relfilenode values of tables and indexes can be changed by issuing certain commands, such as TRUNCATE, REINDEX, CLUSTER. 
+
+testdb=# truncate student;
+TRUNCATE TABLE
+testdb=# SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 'student';
+ relname |  oid  | relfilenode
+---------+-------+-------------
+ student | 19039 |       16385
+(1 row)
+
+testdb=#
+
+
 
 
 
