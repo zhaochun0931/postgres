@@ -39,10 +39,10 @@ SELECT oid, datname FROM pg_database;
 postgres=# SELECT oid, datname FROM pg_database;
   oid  |  datname
 -------+-----------
-     5 | postgres
+ 13720 | postgres
      1 | template1
-     4 | template0
- 16389 | gemfire
+ 19038 | testdb
+ 13719 | template0
 (4 rows)
 
 postgres=#
@@ -60,6 +60,20 @@ testdb=# SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 'student
 (1 row)
 
 testdb=#
+
+
+
+SELECT pg_relation_filepath('student');
+
+testdb=# SELECT pg_relation_filepath('student');
+ pg_relation_filepath
+----------------------
+ base/19038/16385
+(1 row)
+
+testdb=#
+
+
 
 
 The relfilenode values of tables and indexes can be changed by issuing certain commands, such as TRUNCATE, REINDEX, CLUSTER. 
