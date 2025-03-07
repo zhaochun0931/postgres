@@ -26,7 +26,8 @@ The PostgreSQL disk layout
 
 
 
-base - the actual data directory
+base - the actual data directory, PGDATA,  initdb utility to initialize a new database cluster and create this base directory
+
 It actually contains the real data (that is, tables, indexes, and so on). Inside the base directory, each database will have its own subdirectory
 
 
