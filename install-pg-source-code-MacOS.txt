@@ -23,6 +23,10 @@ cd postgresql-17.4
 
 ./configure
 
+make
+
+sudo make install
+
 
 
 
