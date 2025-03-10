@@ -180,3 +180,13 @@ SELECT * FROM pg_stat_activity;
 
 psql gemfire_db < gemfire_db.dump
 vacuumdb -a -z
+
+
+
+# list schemas
+\dn
+
+\dt *.*
+
+
+
