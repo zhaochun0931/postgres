@@ -2,7 +2,9 @@ import psycopg2
 import sys
 
 # Define the connection parameters
-host = "127.0.0.1"
+# host = "127.0.0.1"
+host = "localhost"
+port = 5432
 database = "your_database"
 user = "your_user"
 password = "your_password"
@@ -12,6 +14,7 @@ try:
     print("Connecting to the database...")
     conn = psycopg2.connect(
         host=host,
+        port=port,
         database=database,
         user=user,
         password=password
