@@ -1,53 +1,53 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class PostgresClient {
-
-    // JDBC URL, username, and password of PostgreSQL server
+    
+    // JDBC URL, username, and password of MySQL server
     private static final String URL = "jdbc:postgresql://localhost:5432/your_database";  // Replace with your database URL
     private static final String USER = "your_username";  // Replace with your username
     private static final String PASSWORD = "your_password";  // Replace with your password
+    
+    // SQL query to insert data
+    private static final String INSERT_SQL = "INSERT INTO employees (name, age) VALUES (?, ?)";
 
     public static void main(String[] args) {
         
-        // Connection object
+        // Connection and statement objects
         Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
+        PreparedStatement preparedStatement = null;
+        
         try {
-            // Establish connection to the PostgreSQL server
+            // Establish the connection to the database
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Connected to PostgreSQL server successfully.");
+            System.out.println("Connected to the PostgreSQL server successfully.");
 
-            // Create a Statement object
-            statement = connection.createStatement();
-
-            // Query to retrieve PostgreSQL version
-            String sql = "SELECT version();";
-
-            // Execute the query and get the result
-            resultSet = statement.executeQuery(sql);
-
-            // Retrieve and print the version
-            if (resultSet.next()) {
-                String version = resultSet.getString(1);  // First column is the version info
-                System.out.println("PostgreSQL version: " + version);
+            // Prepare SQL statement
+            preparedStatement = connection.prepareStatement(INSERT_SQL);
+            
+            // Insert multiple rows
+            for (int i = 1; i <= 5; i++) {
+                String name = "Employee" + i;
+                int age = 30 + i;
+                
+                // Set values for prepared statement
+                preparedStatement.setString(1, name);
+                preparedStatement.setInt(2, age);
+                
+                // Execute the insert statement
+                preparedStatement.executeUpdate();
+                System.out.println("Inserted: " + name + " with age " + age);
             }
-
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // Close resources to prevent memory leaks
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
+                if (preparedStatement != null) {
+                    preparedStatement.close();
                 }
                 if (connection != null) {
                     connection.close();
