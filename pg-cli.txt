@@ -190,3 +190,8 @@ vacuumdb -a -z
 
 
 
+SELECT pg_is_in_recovery();
+
+
+
+
