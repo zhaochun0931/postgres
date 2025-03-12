@@ -1,3 +1,5 @@
 pg_shadow
+select * from pg_shadow;
 
 pg_authid
+select * from pg_authid;
