@@ -1,2 +1,9 @@
 psql -h IP -p PORT -u USER -d DBNAME
 
+psql -v
+
+psql -l
+
+psql -c "SQL_STATEMENT"
+
+psql -f FILE_NAME
