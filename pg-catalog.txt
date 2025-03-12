@@ -1,3 +1,10 @@
+pg_database
+
+
+pg_tablespace
+
+
+
 pg_shadow
 select * from pg_shadow;
 
