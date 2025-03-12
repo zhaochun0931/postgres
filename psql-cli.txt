@@ -1,4 +1,4 @@
-psql -h IP -p PORT -u USER -d DBNAME
+psql -h IP -p PORT -U USER -d DBNAME
 
 psql -v
 
@@ -7,3 +7,21 @@ psql -l
 psql -c "SQL_STATEMENT"
 
 psql -f FILE_NAME
+
+
+
+
+
+
+create user username with password 'password';
+
+create role user5 with login password 'password';
+
+SELECT rolname FROM pg_roles;
+
+SELECT rolname, rolsuper, rolcreaterole, rolcreatedb, rolcanlogin FROM pg_roles;
+
+SELECT rolname FROM pg_roles WHERE rolcanlogin = TRUE;
+
+
+
