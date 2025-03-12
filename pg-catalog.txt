@@ -1,5 +1,9 @@
 pg_shadow
 select * from pg_shadow;
 
+In recent versions of PostgreSQL (starting with version 10), the use of pg_shadow is being phased out in favor of better security practice
+
+
+
 pg_authid
 select * from pg_authid;
