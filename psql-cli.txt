@@ -1,6 +1,6 @@
 psql -h IP -p PORT -U USER -d DBNAME
 
-psql -v
+psql -V
 
 psql -l
 
@@ -11,6 +11,7 @@ psql -f FILE_NAME
 
 
 
+SELECT pg_reload_conf();  
 
 
 create user username with password 'password';
