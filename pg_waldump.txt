@@ -57,5 +57,11 @@ rmgr: XLOG        len (rec/tot):    114/   114, tx:          0, lsn: 0/05BBF870,
 $
 
 
+postgres=# SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 't1';
+ relname |  oid  | relfilenode
+---------+-------+-------------
+ t1      | 24715 |       24715
+(1 row)
 
+postgres=#
 
