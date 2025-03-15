@@ -195,3 +195,18 @@ Tables form the building block of relational-database storage.
 index
 
 
+
+
+ctid
+
+in PostgreSQL, ctid is a special system column that exists in every table. It uniquely identifies the physical location of a row in a table. Each row in a table is stored in a specific "tuple" (or row), and ctid indicates that specific row's location in the database storage.
+
+The ctid consists of two components:
+Block Number: The block (or page) number within the table where the row is stored.
+Tuple Index: The position of the row within that block.
+
+For example, ctid might look like (0, 1), which means the row is stored in block 0, and it's the first row in that block.
+
+When a row is updated, PostgreSQL doesn't overwrite the old row but marks it as dead and writes a new row in a new location. ctid can be used to target the specific old or new row.
+
+
