@@ -224,5 +224,15 @@ DELETE FROM t1 WHERE ctid = '(0,2)';
 
 
 
+xmin
+
+in PostgreSQL, xmin is a system column that is used to track the transaction ID (XID) that inserted or last modified a row. It is a part of the internal Multi-Version Concurrency Control (MVCC) system that PostgreSQL uses to manage concurrent access to the database.
+
+
+When a row is updated or deleted, the old row version is marked as a dead tuple, but its xmin (the original transaction ID) is preserved. This allows PostgreSQL to determine if the old row is still visible to any active transactions.
+
+
+
+
 
 
