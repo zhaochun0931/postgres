@@ -265,3 +265,45 @@ select * from t1 where id = 2000;
 
 
 
+testdb=# explain (FORMAT JSON)
+select * from t1;
+                QUERY PLAN
+-------------------------------------------
+ [                                        +
+   {                                      +
+     "Plan": {                            +
+       "Node Type": "Gather Motion",      +
+       "Senders": 1,                      +
+       "Receivers": 1,                    +
+       "Slice": 1,                        +
+       "Segments": 1,                     +
+       "Gang Type": "primary reader",     +
+       "Parallel Aware": false,           +
+       "Startup Cost": 0.00,              +
+       "Total Cost": 431.00,              +
+       "Plan Rows": 2,                    +
+       "Plan Width": 4,                   +
+       "Plans": [                         +
+         {                                +
+           "Node Type": "Seq Scan",       +
+           "Parent Relationship": "Outer",+
+           "Slice": 1,                    +
+           "Segments": 1,                 +
+           "Gang Type": "primary reader", +
+           "Parallel Aware": false,       +
+           "Relation Name": "t1",         +
+           "Alias": "t1",                 +
+           "Startup Cost": 0.00,          +
+           "Total Cost": 431.00,          +
+           "Plan Rows": 2,                +
+           "Plan Width": 4                +
+         }                                +
+       ]                                  +
+     },                                   +
+     "Optimizer": "GPORCA"                +
+   }                                      +
+ ]
+(1 row)
+
+testdb=#
+
