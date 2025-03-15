@@ -315,8 +315,8 @@ testdb=#
 lsn(Log Sequence Number)
 
 select pg_current_wal_lsn();
+select pg_walfile_name('0/B7CBD30');
 select pg_walfile_name(pg_current_wal_lsn());
 select pg_walfile_name_offset(pg_current_wal_lsn());
-
 
 
