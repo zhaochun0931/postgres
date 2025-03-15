@@ -241,4 +241,14 @@ xmax is another system column in PostgreSQL, and it is closely related to xmin. 
 
 
 
+xmin: The transaction ID of the transaction that inserted or last modified the row.
+xmax: The transaction ID of the transaction that marked the row as deleted.
+
+Both xmin and xmax are part of PostgreSQL's MVCC system to manage concurrent access and ensure transactions see consistent data.
+In short, xmax is used to track deleted rows, and in combination with xmin, it allows PostgreSQL to maintain consistent views of data even in the presence of concurrent transactions.
+
+
+
+
+
 
