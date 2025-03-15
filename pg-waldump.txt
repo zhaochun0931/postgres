@@ -1,0 +1,38 @@
+select pg_current_wal_lsn();
+
+
+testdb=# select pg_current_wal_lsn();
+ pg_current_wal_lsn
+--------------------
+ 0/B8C2950
+(1 row)
+
+testdb=#
+
+
+
+
+insert into t1 values(100);
+
+insert into t1 values(200);
+
+checkpoint;
+
+
+
+testdb=# select pg_current_wal_lsn();
+ pg_current_wal_lsn
+--------------------
+ 0/B8DEE98
+(1 row)
+
+testdb=#
+testdb=# \q
+
+
+
+
+
+
+
+pg_waldump -s 0/B8C2950 -e 0/B8DEE98
