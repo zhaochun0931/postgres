@@ -252,3 +252,16 @@ In short, xmax is used to track deleted rows, and in combination with xmin, it a
 
 
 
+explain
+select * from t1;
+
+
+explain (FORMAT JSON)
+select * from t1;
+
+
+explain analyze
+select * from t1 where id = 2000;
+
+
+
