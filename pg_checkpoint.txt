@@ -1,3 +1,9 @@
+/usr/lib/postgresql/17/bin/pg_waldump
+
+
+
+
+
 create database testdb;
 create table t1 (id int);
 
@@ -64,4 +70,62 @@ postgres=# SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 't1';
 (1 row)
 
 postgres=#
+
+
+
+
+
+
+# checkpoint
+
+
+testdb=# create table t1 as select * from generate_series(1,10000) as id(int);
+SELECT 10000
+testdb=# 
+testdb=# create extension pg_buffercache;
+CREATE EXTENSION
+testdb=# select count(*) from pg_buffercache where isdirty;
+ count
+-------
+   977
+(1 row)
+
+testdb=# SELECT pg_current_wal_insert_lsn();
+ pg_current_wal_insert_lsn
+---------------------------
+ 0/608DFC8
+(1 row)
+
+testdb=#
+testdb=#
+testdb=# checkpoint ;
+CHECKPOINT
+testdb=# select count(*) from pg_buffercache where isdirty;
+ count
+-------
+     0
+(1 row)
+
+testdb=# SELECT pg_current_wal_insert_lsn();
+ pg_current_wal_insert_lsn
+---------------------------
+ 0/608E0E8
+(1 row)
+
+testdb=# \q
+
+
+$ /usr/lib/postgresql/17/bin/pg_waldump -s 0/608DFC8 -e 0/608E0E8
+rmgr: XLOG        len (rec/tot):     30/    30, tx:          0, lsn: 0/0608DFC8, prev 0/0608DF90, desc: CHECKPOINT_REDO wal_level replica
+rmgr: Standby     len (rec/tot):     50/    50, tx:          0, lsn: 0/0608DFE8, prev 0/0608DFC8, desc: RUNNING_XACTS nextXid 836 latestCompletedXid 835 oldestRunningXid 836
+rmgr: XLOG        len (rec/tot):    114/   114, tx:          0, lsn: 0/0608E038, prev 0/0608DFE8, desc: CHECKPOINT_ONLINE redo 0/608DFC8; tli 1; prev tli 1; fpw true; wal_level replica; xid 0:836; oid 32906; multi 1; offset 0; oldest xid 730 in DB 1; oldest multi 1 in DB 1; oldest/newest commit timestamp xid: 0/0; oldest running xid 836; online
+rmgr: Standby     len (rec/tot):     50/    50, tx:          0, lsn: 0/0608E0B0, prev 0/0608E038, desc: RUNNING_XACTS nextXid 836 latestCompletedXid 835 oldestRunningXid 836
+postgres@ubuntu2:~/17/main/pg_wal$
+
+
+
+
+
+
+
 
