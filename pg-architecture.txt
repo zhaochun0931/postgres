@@ -235,4 +235,10 @@ When a row is updated or deleted, the old row version is marked as a dead tuple,
 
 
 
+xmax
+
+xmax is another system column in PostgreSQL, and it is closely related to xmin. While xmin tracks the transaction ID that inserted or last modified a row, xmax tracks the transaction ID that deleted the row or is responsible for marking the row as "deleted" in the context of Multi-Version Concurrency Control (MVCC).
+
+
+
 
