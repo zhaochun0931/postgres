@@ -1,10 +1,15 @@
+create database testdb;
+create table t1 (id int);
+
+
+
 select pg_current_wal_lsn();
 
 
 testdb=# select pg_current_wal_lsn();
  pg_current_wal_lsn
 --------------------
- 0/B8C2950
+ 0/5BBF710
 (1 row)
 
 testdb=#
@@ -23,7 +28,7 @@ checkpoint;
 testdb=# select pg_current_wal_lsn();
  pg_current_wal_lsn
 --------------------
- 0/B8DEE98
+ 0/5BBF8E8
 (1 row)
 
 testdb=#
@@ -35,4 +40,22 @@ testdb=# \q
 
 
 
-pg_waldump -s 0/B8C2950 -e 0/B8DEE98
+pg_waldump -s  0/5BBF710 -e 0/5BBF8E8
+
+
+
+
+$ pg_waldump -s  0/5BBF710 -e 0/5BBF8E8
+rmgr: Heap        len (rec/tot):     59/    59, tx:        827, lsn: 0/05BBF710, prev 0/05BBF6D8, desc: INSERT+INIT off: 1, flags: 0x00, blkref #0: rel 1663/5/24715 blk 0
+rmgr: Transaction len (rec/tot):     34/    34, tx:        827, lsn: 0/05BBF750, prev 0/05BBF710, desc: COMMIT 2025-03-15 05:22:18.822128 EDT
+rmgr: Standby     len (rec/tot):     50/    50, tx:          0, lsn: 0/05BBF778, prev 0/05BBF750, desc: RUNNING_XACTS nextXid 828 latestCompletedXid 827 oldestRunningXid 828
+rmgr: Heap        len (rec/tot):     59/    59, tx:        828, lsn: 0/05BBF7B0, prev 0/05BBF778, desc: INSERT off: 2, flags: 0x00, blkref #0: rel 1663/5/24715 blk 0
+rmgr: Transaction len (rec/tot):     34/    34, tx:        828, lsn: 0/05BBF7F0, prev 0/05BBF7B0, desc: COMMIT 2025-03-15 05:22:21.845581 EDT
+rmgr: XLOG        len (rec/tot):     30/    30, tx:          0, lsn: 0/05BBF818, prev 0/05BBF7F0, desc: CHECKPOINT_REDO wal_level replica
+rmgr: Standby     len (rec/tot):     50/    50, tx:          0, lsn: 0/05BBF838, prev 0/05BBF818, desc: RUNNING_XACTS nextXid 829 latestCompletedXid 828 oldestRunningXid 829
+rmgr: XLOG        len (rec/tot):    114/   114, tx:          0, lsn: 0/05BBF870, prev 0/05BBF838, desc: CHECKPOINT_ONLINE redo 0/5BBF818; tli 1; prev tli 1; fpw true; wal_level replica; xid 0:829; oid 32906; multi 1; offset 0; oldest xid 730 in DB 1; oldest multi 1 in DB 1; oldest/newest commit timestamp xid: 0/0; oldest running xid 829; online
+$
+
+
+
+
