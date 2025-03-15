@@ -183,5 +183,9 @@ $
 
 
 
+SELECT COUNT(*) FROM pg_ls_waldir();
+
+
+
 
 
