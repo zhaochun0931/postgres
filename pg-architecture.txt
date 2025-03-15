@@ -209,4 +209,12 @@ For example, ctid might look like (0, 1), which means the row is stored in block
 
 When a row is updated, PostgreSQL doesn't overwrite the old row but marks it as dead and writes a new row in a new location. ctid can be used to target the specific old or new row.
 
+The ctid is typically used by PostgreSQL internally. For regular applications, it's usually better to use primary keys or unique constraints to identify rows.
+
+
+
+
+
+
+
 
