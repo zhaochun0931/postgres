@@ -1,1 +1,52 @@
+BEGIN;
+DELETE FROM my_table WHERE id < 100000;
+COMMIT;
 
+
+
+create table t1 as select 1 as id;
+
+
+# Use postgres/example user/password credentials
+version: '3.9'
+
+services:
+
+  db1:
+    image: postgres
+    restart: always
+    hostname: db1
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - pg_network
+
+  db2:
+    image: postgres
+    restart: always
+    hostname: db2
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - pg_network
+
+
+networks:
+  pg_network:
+    driver: bridge
