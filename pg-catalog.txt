@@ -14,3 +14,13 @@ In recent versions of PostgreSQL (starting with version 10), the use of pg_shado
 
 pg_authid
 select * from pg_authid;
+
+
+
+
+pg_stat_activity
+
+pg_stat_bgwriter
+
+
+
