@@ -1,0 +1,3 @@
+create user replication_user with replication password 'password';
+
+SELECT * FROM pg_create_physical_replication_slot('replication_slot');
