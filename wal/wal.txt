@@ -4,6 +4,17 @@ Write-Ahead Logging(WAL) and the vacuum process
 
 
 
+select * from pg_stat_replication;
+
+select * from pg_stat_archiver;
+
+select * from pg_stat_bgwriter;
+
+
+
+
+
+
 
 
 
