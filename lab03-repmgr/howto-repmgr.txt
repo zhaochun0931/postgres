@@ -18,3 +18,13 @@ CREATE DATABASE repmgr WITH OWNER repmgr;
 
 
 repmgr primary register -f repmgr.conf
+
+
+repmgr cluster show -f repmgr.conf
+
+
+$ repmgr cluster show -f repmgr.conf
+ ID | Name    | Role    | Status    | Upstream | Location | Priority | Timeline | Connection string
+----+---------+---------+-----------+----------+----------+----------+----------+------------------------------------------------------------
+ 1  | primary | primary | * running |          | default  | 100      | 1        | host=localhost dbname=repmgr user=repmgr password=password
+postgres@ubuntu1:~$
