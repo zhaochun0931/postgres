@@ -1,0 +1,3 @@
+repmgr is a PostgreSQL clustering and replication management tool that helps with setting up, managing, and monitoring PostgreSQL replication clusters
+
+repmgr is commonly used to manage streaming replication between primary and replica PostgreSQL instances
