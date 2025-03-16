@@ -1,3 +1,13 @@
+Write-Ahead Logging(WAL) and the vacuum process
+
+
+
+
+
+
+
+
+
 /usr/lib/postgresql/17/bin/pg_waldump
 
 
