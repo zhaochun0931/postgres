@@ -190,6 +190,7 @@ postgres=#
 
 
 Query Execution Process
+
 ├── parse
 ├── plan
 │   ├── query planner
@@ -198,6 +199,17 @@ Query Execution Process
 
 
 
+
+
+Database Structural Objects
+
+├── database
+├── index
+├── procedure
+├── schema
+├── sequence
+├── table
+└── view
 
 
 
