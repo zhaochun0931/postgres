@@ -26,7 +26,8 @@ SELECT * FROM pg_stat_replication;
 # slave
 
 
-pg_basebackup -h 10.211.55.22 -p 5432 -D /data1 -U replication_user
+pg_basebackup -h 10.211.55.22 -p 5432 -D /data1 -U replication_user -Fp -Xs -P
+
 
 touch /data1/standby.signal
 
