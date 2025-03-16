@@ -5,6 +5,18 @@ create user replication_user with replication password 'password';
 SELECT * FROM pg_create_physical_replication_slot('replication_slot');
 
 
+# This is calling the pg_create_physical_replication_slot() function, which is a built-in PostgreSQL function. It creates a physical replication slot with the name you provide as the argument—in this case, 'replication_slot'. The replication slot is used for logical or physical replication between PostgreSQL servers.
+
+Physical replication: This means that PostgreSQL will replicate the exact byte-by-byte changes from one server to another (as opposed to logical replication, which replicates specific tables or databases). The name 'replication_slot' is just a placeholder here—you can name it whatever you like, as long as it’s unique.
+
+
+
+select pg_is_in_recovery();
+
+SELECT * FROM pg_stat_replication;
+
+
+
 
 
 # slave
