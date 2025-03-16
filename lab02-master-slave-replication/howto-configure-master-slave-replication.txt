@@ -19,6 +19,10 @@ SELECT * FROM pg_stat_replication;
 
 
 
+
+
+
+
 # slave
 
 
@@ -30,5 +34,5 @@ touch /data1/standby.signal
 
 # Edit the postgresql.conf file on the slave to enable hot standby
 hot_standby = on
-
+primary_conninfo = 'host=localhost port=5432 user=replication_user password=password'
 
