@@ -74,7 +74,7 @@ touch /data1/standby.signal
 
 
 
-# Edit the postgresql.conf file on the slave to enable hot standby
+# edit the postgresql.conf file on the slave to enable hot standby
 hot_standby = on
 primary_conninfo = 'host=10.211.55.22 port=5432 user=replication_user password=password'
 
@@ -88,3 +88,25 @@ testdb=# select pg_is_in_recovery();
 
 testdb=#
 
+
+select * from pg_stat_wal_receiver;
+
+testdb=# select * from pg_stat_wal_receiver;
+-[ RECORD 1 ]-
+pid                   | 1305
+status                | streaming
+receive_start_lsn     | 0/7000000
+receive_start_tli     | 1
+written_lsn           | 0/70185A0
+flushed_lsn           | 0/70185A0
+received_tli          | 1
+last_msg_send_time    | 2025-03-16 22:20:15.242982+08
+last_msg_receipt_time | 2025-03-16 22:20:14.607235+08
+latest_end_lsn        | 0/70185A0
+latest_end_time       | 2025-03-16 22:18:15.19536+08
+slot_name             |
+sender_host           | 10.211.55.22
+sender_port           | 5432
+conninfo              | user=replication_user password=******** channel_binding=disable dbname=replication host=10.211.55.22 port=5432 fallback_application_name=walreceiver sslmode=disable sslnegotiation=postgres sslcompression=0 sslcertmode=disable sslsni=1 ssl_min_protocol_version=TLSv1.2 gssencmode=disable krbsrvname=postgres gssdelegation=0 target_session_attrs=any load_balance_hosts=disable
+
+testdb=#
