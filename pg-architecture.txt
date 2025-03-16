@@ -187,12 +187,13 @@ postgres=#
 
 
 
-table
-Tables form the building block of relational-database storage.
 
 
 
-index
+
+
+
+
 
 
 
