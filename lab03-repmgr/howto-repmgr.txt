@@ -28,3 +28,16 @@ $ repmgr cluster show -f repmgr.conf
 ----+---------+---------+-----------+----------+----------+----------+----------+------------------------------------------------------------
  1  | primary | primary | * running |          | default  | 100      | 1        | host=localhost dbname=repmgr user=repmgr password=password
 postgres@ubuntu1:~$
+
+
+
+
+
+
+
+
+
+# standby
+
+export PGPASSWORD='password'
+repmgr -h 10.211.55.22 -U repmgr -d repmgr standby clone -D /data3
