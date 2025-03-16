@@ -1,16 +1,20 @@
 CREATE DATABASE testdb;
 \c testdb
 
-CREATE TABLE test_table ( id SERIAL PRIMARY KEY, name VARCHAR(50));
+CREATE TABLE t1 ( id SERIAL PRIMARY KEY, name VARCHAR(50));
 
+INSERT INTO t1 (name) VALUES ('xxx');
+INSERT INTO t1 (name) VALUES ('yyy');
 
-INSERT INTO test_table (name) VALUES ('xxx');
-INSERT INTO test_table (name) VALUES ('yyy');
-
-
-SELECT * FROM test_table;
+SELECT * FROM t1;
 
 drop database testdb;
+
+
+
+
+
+
 
 
 
