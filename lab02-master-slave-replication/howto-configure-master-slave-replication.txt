@@ -13,7 +13,48 @@ Physical replication: This means that PostgreSQL will replicate the exact byte-b
 
 select pg_is_in_recovery();
 
+
+testdb=# select pg_is_in_recovery();
+ pg_is_in_recovery
+-------------------
+ f
+(1 row)
+
+testdb=#
+
+
+
+
 SELECT * FROM pg_stat_replication;
+
+
+testdb=# SELECT * FROM pg_stat_replication;
+-[ RECORD 1 ]----+------------------------------
+pid              | 2511
+usesysid         | 16388
+usename          | replication_user
+application_name | walreceiver
+client_addr      | 10.211.55.23
+client_hostname  |
+client_port      | 57056
+backend_start    | 2025-03-16 22:14:42.998941+08
+backend_xmin     |
+state            | streaming
+sent_lsn         | 0/7018498
+write_lsn        | 0/7018498
+flush_lsn        | 0/7018498
+replay_lsn       | 0/7018498
+write_lag        |
+flush_lag        |
+replay_lag       |
+sync_priority    | 0
+sync_state       | async
+reply_time       | 2025-03-16 22:17:20.822968+08
+
+testdb=#
+testdb=#
+
+
 
 
 
@@ -35,5 +76,15 @@ touch /data1/standby.signal
 
 # Edit the postgresql.conf file on the slave to enable hot standby
 hot_standby = on
-primary_conninfo = 'host=localhost port=5432 user=replication_user password=password'
+primary_conninfo = 'host=10.211.55.22 port=5432 user=replication_user password=password'
+
+
+
+testdb=# select pg_is_in_recovery();
+ pg_is_in_recovery
+-------------------
+ t
+(1 row)
+
+testdb=#
 
