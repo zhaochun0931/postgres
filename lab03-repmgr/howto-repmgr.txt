@@ -16,3 +16,5 @@ CREATE DATABASE repmgr WITH OWNER repmgr;
 
 
 
+
+repmgr primary register -f repmgr.conf
