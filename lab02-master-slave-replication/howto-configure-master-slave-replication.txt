@@ -13,4 +13,5 @@ SELECT * FROM pg_create_physical_replication_slot('replication_slot');
 pg_basebackup -h 10.211.55.22 -p 5432 -D /data1 -U replication_user
 
 
-
+# Edit the postgresql.conf file on the slave to enable hot standby
+hot_standby = on
