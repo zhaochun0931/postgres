@@ -1,3 +1,24 @@
+apt install pgbouncer
+
+
+
+/usr/share/doc/pgbouncer/examples/pgbouncer.ini
+
+
+
+
+
+mkdir ~/pgbouncer
+
+cd ~/pgbouncer
+touch pgbouncer.init users.txt
+
+
+
+
+
+
+
 ├── pgbouncer.ini
 └── users.txt
 
