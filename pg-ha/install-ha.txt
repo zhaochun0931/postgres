@@ -60,5 +60,6 @@ gemfire_db=#
 
 pg_basebackup -h localhost -p 5432 -U replication_user -D /data2 -Fp -Xs -P
 
+pg_basebackup -h 10.211.55.22 -p 5432 -U replication_user -D /data1 -Fp -Xs -P
 
 
