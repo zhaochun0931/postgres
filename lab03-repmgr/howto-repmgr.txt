@@ -6,6 +6,9 @@ repmgr is commonly used to manage streaming replication between primary and repl
 
 
 
+apt install postgresql-client-17
+apt install postgresql-17-repmgr
+
 
 
 CREATE USER repmgr WITH superuser PASSWORD 'password';
