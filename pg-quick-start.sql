@@ -40,5 +40,16 @@ insert into t2 select * from generate_series(1,100);
 
 create temp table t2_temp as select * from t2 where id >= 30;
 
+drop table t2;
+
+
+
+
+
+
+create table t3 as select * from generate_series(1,100000) as id(int);
+drop table t3;
+
+
 
 
