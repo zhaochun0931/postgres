@@ -19,15 +19,15 @@ apt-get install -y build-essential libreadline-dev zlib1g-dev flex bison libxml2
 
 
 tar -xvf postgresql-17.4.tar.gz
-
 cd postgresql-17.4
-
 ./configure
 make
 make install
+
+
+
+
 adduser postgres
-
-
 mkdir -p /data1 /data2
 chown -R postgres:postgres /data1 /data2
 
@@ -35,24 +35,16 @@ chown -R postgres:postgres /data1 /data2
 
 
 su - postgres
-
 export PATH=/usr/local/pgsql/bin:$PATH
 
 
 initdb -D /data1/
 pg_ctl -D /data1/ -l logfile start
 
-
-createdb testdb
-
-psql testdb
-
-
-
-
-
-
-
 initdb -D /data2/
 pg_ctl -D /data2 -o '-p 5433' -l logfile start
+
+
+createdb testdb
+psql testdb
 
