@@ -189,6 +189,22 @@ postgres=#
 
 
 
+Query Execution Process
+├── parse
+├── plan
+│   ├── query planner
+│   └── optimizer
+└── execution
+
+
+
+
+
+
+
+
+
+
 
 
 
