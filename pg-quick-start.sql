@@ -53,3 +53,24 @@ drop table t3;
 
 
 
+create table t4 (id int, name varchar(100));
+insert into t4 values(generate_series(1,10),'name_' || generate_series(1,10));
+
+# select * from t4;
+ id |  name
+----+---------
+  1 | name_1
+  2 | name_2
+  3 | name_3
+  4 | name_4
+  5 | name_5
+  6 | name_6
+  7 | name_7
+  8 | name_8
+  9 | name_9
+ 10 | name_10
+(10 rows)
+
+#
+
+
