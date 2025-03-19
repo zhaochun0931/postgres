@@ -61,7 +61,7 @@ mydatabase=#
 
 
 
-
+Horizontal Partitioning involves dividing a table into multiple tables based on rows, typically using techniques similar to standard partitioning strategies.
 
 
 
@@ -154,6 +154,9 @@ SELECT * FROM test_table WHERE age = 25;
 DROP TABLE IF EXISTS test_table;
 DROP TABLE IF EXISTS test_table_name;
 DROP TABLE IF EXISTS test_table_age;
+
+
+
 
 
 
