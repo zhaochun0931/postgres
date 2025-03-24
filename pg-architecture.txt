@@ -32,6 +32,9 @@ It actually contains the real data (that is, tables, indexes, and so on). Inside
 
 
 
+# database oid
+
+select oid, * from pg_database;
 
 SELECT oid, datname FROM pg_database;
 
@@ -49,6 +52,8 @@ postgres=#
 
 
 
+
+# 
 In PostgreSQL, each table is related to (at least) one data file.
 
 SELECT relname, oid, relfilenode FROM pg_class WHERE relname = 'table_name';
