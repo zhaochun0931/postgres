@@ -11,48 +11,9 @@ Physical replication: This means that PostgreSQL will replicate the exact byte-b
 
 
 
-select pg_is_in_recovery();
+psql -c 'select pg_is_in_recovery();'
+psql -c 'SELECT * FROM pg_stat_replication;'
 
-
-testdb=# select pg_is_in_recovery();
- pg_is_in_recovery
--------------------
- f
-(1 row)
-
-testdb=#
-
-
-
-
-SELECT * FROM pg_stat_replication;
-
-
-testdb=# SELECT * FROM pg_stat_replication;
--[ RECORD 1 ]----+------------------------------
-pid              | 2511
-usesysid         | 16388
-usename          | replication_user
-application_name | walreceiver
-client_addr      | 10.211.55.23
-client_hostname  |
-client_port      | 57056
-backend_start    | 2025-03-16 22:14:42.998941+08
-backend_xmin     |
-state            | streaming
-sent_lsn         | 0/7018498
-write_lsn        | 0/7018498
-flush_lsn        | 0/7018498
-replay_lsn       | 0/7018498
-write_lag        |
-flush_lag        |
-replay_lag       |
-sync_priority    | 0
-sync_state       | async
-reply_time       | 2025-03-16 22:17:20.822968+08
-
-testdb=#
-testdb=#
 
 
 
@@ -81,34 +42,14 @@ hot_standby = on
 primary_conninfo = 'host=10.211.55.22 port=5432 user=replication_user password=password'
 primary_conninfo = 'host=db1 port=5432 user=replication_user password=password'
 
-
-testdb=# select pg_is_in_recovery();
- pg_is_in_recovery
--------------------
- t
-(1 row)
-
-testdb=#
+# start up the slave database
+pg_ctl -D /data1 start
 
 
-select * from pg_stat_wal_receiver;
+# it will return true
+psql -c 'select pg_is_in_recovery();'
 
-testdb=# select * from pg_stat_wal_receiver;
--[ RECORD 1 ]-
-pid                   | 1305
-status                | streaming
-receive_start_lsn     | 0/7000000
-receive_start_tli     | 1
-written_lsn           | 0/70185A0
-flushed_lsn           | 0/70185A0
-received_tli          | 1
-last_msg_send_time    | 2025-03-16 22:20:15.242982+08
-last_msg_receipt_time | 2025-03-16 22:20:14.607235+08
-latest_end_lsn        | 0/70185A0
-latest_end_time       | 2025-03-16 22:18:15.19536+08
-slot_name             |
-sender_host           | 10.211.55.22
-sender_port           | 5432
-conninfo              | user=replication_user password=******** channel_binding=disable dbname=replication host=10.211.55.22 port=5432 fallback_application_name=walreceiver sslmode=disable sslnegotiation=postgres sslcompression=0 sslcertmode=disable sslsni=1 ssl_min_protocol_version=TLSv1.2 gssencmode=disable krbsrvname=postgres gssdelegation=0 target_session_attrs=any load_balance_hosts=disable
 
-testdb=#
+psql -c 'select * from pg_stat_wal_receiver;'
+
+
