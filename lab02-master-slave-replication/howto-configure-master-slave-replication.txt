@@ -79,7 +79,7 @@ touch /data1/standby.signal
 # edit the postgresql.conf file on the slave to enable hot standby
 hot_standby = on
 primary_conninfo = 'host=10.211.55.22 port=5432 user=replication_user password=password'
-
+primary_conninfo = 'host=db1 port=5432 user=replication_user password=password'
 
 
 testdb=# select pg_is_in_recovery();
