@@ -1,7 +1,6 @@
 # master
 
 create user replication_user with replication password 'password';
-
 SELECT * FROM pg_create_physical_replication_slot('replication_slot');
 
 
@@ -11,7 +10,6 @@ Physical replication: This means that PostgreSQL will replicate the exact byte-b
 
 
 
-psql -c 'select pg_is_in_recovery();'
 psql -c 'SELECT * FROM pg_stat_replication;'
 
 
