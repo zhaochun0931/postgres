@@ -1,0 +1,76 @@
+create user replicator with password 'password';
+
+
+
+# create 3-node etcd cluster
+
+
+
+
+
+patroni postgres.yaml > patroni.log 2>&1 &
+
+
+
+
+
+
+
+
+
+
+mkdir /data
+chown -R postgres:postgres /data
+chmod 700 /data
+
+
+
+
+patronictl -c postgres.yaml list
+
+
+
+
+$ patronictl -c postgres.yaml list
+
++ Cluster: batman (7509269911718428158) ------+----+-----------+
+| Member | Host         | Role    | State     | TL | Lag in MB |
++--------+--------------+---------+-----------+----+-----------+
+| pg1    | 10.211.55.29 | Leader  | running   |  2 |           |
+| pg2    | 10.211.55.30 | Replica | streaming |  2 |         0 |
+| pg3    | 10.211.55.31 | Replica | streaming |  2 |         0 |
++--------+--------------+---------+-----------+----+-----------+
+
+
+
+
+patronictl -c postgres0.yml switchover
+
+
+
+postgres@ubuntu1:~$ patronictl -c postgres0.yml switchover
+Current cluster topology
++ Cluster: batman (7509665000036786018) ------+----+-----------+
+| Member | Host         | Role    | State     | TL | Lag in MB |
++--------+--------------+---------+-----------+----+-----------+
+| pg1    | 10.211.55.29 | Replica | streaming | 13 |         0 |
+| pg2    | 10.211.55.30 | Leader  | running   | 13 |           |
+| pg3    | 10.211.55.31 | Replica | streaming | 13 |         0 |
++--------+--------------+---------+-----------+----+-----------+
+Primary [pg2]:
+Candidate ['pg1', 'pg3'] []: pg3
+When should the switchover take place (e.g. 2025-05-29T02:07 )  [now]:
+Are you sure you want to switchover cluster batman, demoting current leader pg2? [y/N]: y
+2025-05-29 01:07:15.27147 Successfully switched over to "pg3"
++ Cluster: batman (7509665000036786018) ----+----+-----------+
+| Member | Host         | Role    | State   | TL | Lag in MB |
++--------+--------------+---------+---------+----+-----------+
+| pg1    | 10.211.55.29 | Replica | running | 13 |         0 |
+| pg2    | 10.211.55.30 | Replica | stopped |    |   unknown |
+| pg3    | 10.211.55.31 | Leader  | running | 14 |           |
++--------+--------------+---------+---------+----+-----------+
+postgres@ubuntu1:~$
+postgres@ubuntu1:~$
+
+
+
