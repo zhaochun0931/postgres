@@ -1,0 +1,71 @@
+scope: batman
+namespace: /service/
+name: pg2
+
+restapi:
+  listen: 0.0.0.0:8009
+  connect_address: 10.211.55.30:8009
+
+etcd3:
+  hosts:
+  - 10.211.55.29:2379
+  - 10.211.55.30:2379
+  - 10.211.55.31:2379
+
+# The bootstrap configuration. Works only when the cluster is not yet initialized.
+# If the cluster is already initialized, all changes in the `bootstrap` section are ignored!
+bootstrap:
+  # This section will be written into Etcd:/<namespace>/<scope>/config after initializing new cluster
+  # and all other cluster members will use it as a `global configuration`.
+  # WARNING! If you want to change any of the parameters that were set up
+  # via `bootstrap.dcs` section, please use `patronictl edit-config`!
+  dcs:
+    ttl: 30
+    loop_wait: 10
+    retry_timeout: 10
+    maximum_lag_on_failover: 1048576
+    postgresql:
+      use_pg_rewind: true
+
+  initdb:
+    - encoding: UTF8
+    - data-checksums
+
+
+postgresql:
+  listen: 0.0.0.0:5432
+  connect_address: 10.211.55.30:5432
+  data_dir: /data
+  pgpass: /tmp/pgpass1
+  pg_hba:
+    - local all all trust
+    - host  replication replicator 127.0.0.1/32 md5
+    - host  replication replicator 0.0.0.0/0 md5
+    - host all all 0.0.0.0/0 md5
+  authentication:
+    replication:
+      username: replicator
+      password: password
+    superuser:
+      username: postgres
+      password: password
+    rewind:  # Has no effect on postgres 10 and lower
+      username: rewind_user
+      password: rewind_password
+  parameters:
+    unix_socket_directories: '/tmp'  # parent directory of data_dir
+    logging_collector: on
+    log_directory: 'pg_log'
+    log_filename: 'postgresql-%a.log'
+    log_rotation_age: 1d
+    log_rotation_size: 0
+    log_statement: 'ddl'
+    log_min_duration_statement: 1000
+    log_line_prefix: '%m [%p] %q%u@%d'
+
+tags:
+    # failover_priority: 1
+    # sync_priority: 1
+    noloadbalance: false
+    clonefrom: false
+    nostream: false
