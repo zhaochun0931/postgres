@@ -1,0 +1,119 @@
+# install
+
+sudo apt install -y postgresql-common
+sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+apt install postgresql
+
+
+
+
+
+
+
+
+
+
+
+
+
+apt install postgresql-filedump
+
+
+
+# verify
+systemctl status postgresql.service
+psql --version
+dpkg -l | grep postgresql
+pg_lsclusters
+
+
+# dpkg -l | grep postgresql
+ii  postgresql                            12+214ubuntu0.1                   all          object-relational SQL database (supported version)
+ii  postgresql-12                         12.22-0ubuntu0.20.04.1            arm64        object-relational SQL database, version 12 server
+ii  postgresql-client-12                  12.22-0ubuntu0.20.04.1            arm64        front-end programs for PostgreSQL 12
+ii  postgresql-client-common              214ubuntu0.1                      all          manager for multiple PostgreSQL client versions
+ii  postgresql-common                     214ubuntu0.1                      all          PostgreSQL database-cluster manager
+#
+
+# pg_lsclusters
+Ver Cluster Port Status Owner    Data directory              Log file
+12  main    5432 online postgres /var/lib/postgresql/12/main /var/log/postgresql/postgresql-12-main.log
+#
+
+
+
+
+
+
+
+
+# up till now, the postgresql installation is successfully
+
+
+
+
+or 
+
+You can now start the database server using:
+
+    pg_ctlcluster 12 main start
+
+
+
+
+
+/etc/postgresql/17/main
+
+├── conf.d
+├── environment
+├── pg_ctl.conf
+├── pg_hba.conf
+├── pg_ident.conf
+├── postgresql.conf
+└── start.conf
+
+
+
+
+
+
+After installing PostgreSQL, there is no default password set for the postgres user.  You should set a password for the postgres user.
+
+ALTER USER postgres PASSWORD 'newpassword';
+
+
+
+
+
+
+/etc/postgresql/12/main/postgresql.conf
+
+/var/log/postgresql/postgresql-12-main.log
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# uninstall
+systemctl stop postgresql
+apt remove --purge postgresql postgresql-* -y
+rm -rf /etc/postgresql /var/lib/postgresql /var/log/postgresql
+apt autoremove -y
+apt autoclean
+
+
+
+
+
+
