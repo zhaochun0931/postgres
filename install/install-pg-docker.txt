@@ -1,0 +1,29 @@
+docker run --rm --name mypg -e POSTGRES_PASSWORD=password -p 5432:5432 -v $(PWD)/mypg:/var/lib/postgresql/data -d postgres
+
+
+the default postgres user and database are created in the entrypoint with initdb.
+
+
+
+
+
+
+
+
+PGDATA
+/var/lib/postgresql/data is the default data directory
+
+
+
+
+
+
+
+docker exec -it mypg bash
+su - postgres
+psql postgres
+
+
+
+
+
