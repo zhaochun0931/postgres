@@ -1,0 +1,184 @@
+su - postgres
+
+sudo systemctl stop postgresql
+sudo systemctl disable postgresql
+
+
+
+
+
+
+export PGDATA=/var/lib/postgresql/test
+export PGPORT=5433
+
+
+rm -Rf .config/ .local/ 
+rm -Rf backup/ test/ /var/run/postgresql/*
+
+
+pg_autoctl create monitor --ssl-self-signed --auth trust --hostname host1 --run
+
+
+
+postgres@host1:~$ pg_autoctl create monitor --ssl-self-signed --auth trust --hostname host1 --run
+04:01:21 1199 INFO  Using default --ssl-mode "require"
+04:01:21 1199 INFO  Using --ssl-self-signed: pg_autoctl will create self-signed certificates, allowing for encrypted network traffic
+04:01:21 1199 WARN  Self-signed certificates provide protection against eavesdropping; this setup does NOT protect against Man-In-The-Middle attacks nor Impersonation attacks.
+04:01:21 1199 WARN  See https://www.postgresql.org/docs/current/libpq-ssl.html for details
+04:01:21 1199 WARN  Failed to find pg_ctl command in your PATH
+04:01:21 1199 INFO   /usr/bin/openssl req -new -x509 -days 365 -nodes -text -out /data/server.crt -keyout /data/server.key -subj "/CN=host1"
+04:01:21 1199 INFO  Started pg_autoctl postgres service with pid 1207
+04:01:21 1207 INFO   /usr/bin/pg_autoctl do service postgres --pgdata /data -v
+04:01:21 1199 INFO  Started pg_autoctl listener service with pid 1208
+04:01:21 1212 INFO   /usr/lib/postgresql/16/bin/postgres -D /data -p 5432 -h *
+04:01:21 1207 INFO  Postgres is now serving PGDATA "/data" on port 5432 with pid 1212
+04:01:21 1208 WARN  NOTICE:  installing required extension "btree_gist"
+04:01:21 1208 INFO  Granting connection privileges on 10.211.55.0/24
+04:01:21 1208 WARN  Skipping HBA edits (per --skip-pg-hba) for rule: hostssl "pg_auto_failover" "autoctl_node" 10.211.55.0/24 trust
+04:01:21 1208 INFO  Your pg_auto_failover monitor instance is now ready on port 5432.
+04:01:21 1208 INFO  Monitor has been successfully initialized.
+04:01:21 1208 INFO   /usr/bin/pg_autoctl do service listener --pgdata /data -v
+04:01:21 1208 INFO  Managing the monitor at postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require
+04:01:21 1208 INFO  Reloaded the new configuration from "/var/lib/postgresql/.config/pg_autoctl/data/pg_autoctl.cfg"
+04:01:21 1208 INFO  Reloading Postgres configuration and HBA rules
+04:01:22 1208 INFO  The version of extension "pgautofailover" is "2.1" on the monitor
+04:01:22 1208 INFO  Contacting the monitor to LISTEN to its events.
+
+
+
+psql -l
+
+                                                           List of databases
+       Name       |  Owner   | Encoding | Locale Provider |   Collate   |    Ctype    | ICU Locale | ICU Rules |   Access privileges
+------------------+----------+----------+-----------------+-------------+-------------+------------+-----------+-----------------------
+ pg_auto_failover | autoctl  | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           |
+ postgres         | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           |
+ template0        | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           | =c/postgres          +
+                  |          |          |                 |             |             |            |           | postgres=CTc/postgres
+ template1        | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           | =c/postgres          +
+                  |          |          |                 |             |             |            |           | postgres=CTc/postgres
+(4 rows)
+
+
+
+
+postgres@host1:~$ psql pg_auto_failover
+psql (16.9 (Ubuntu 16.9-0ubuntu0.24.04.1))
+Type "help" for help.
+
+pg_auto_failover=# \dx
+                             List of installed extensions
+      Name      | Version |   Schema   |                  Description
+----------------+---------+------------+-----------------------------------------------
+ btree_gist     | 1.7     | public     | support for indexing common datatypes in GiST
+ pgautofailover | 2.1     | public     | pg_auto_failover
+ plpgsql        | 1.0     | pg_catalog | PL/pgSQL procedural language
+(3 rows)
+
+
+
+
+
+
+
+
+
+
+pg_autoctl show uri
+
+
+
+$ pg_autoctl show uri
+        Type |    Name | Connection String
+-------------+---------+-------------------------------
+     monitor | monitor | postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require
+   formation | default |
+
+$
+
+
+
+
+
+
+pg_autoctl show state
+
+
+
+
+
+
+
+pg_autoctl create postgres \
+--hostname host2 \
+--auth trust \
+--ssl-self-signed \
+--monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require' \
+--run
+
+
+
+pg_autoctl create postgres \
+--hostname host3 \
+--auth trust \
+--ssl-self-signed \
+--monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require' \
+--run
+
+
+
+
+# you can run 3 nodes in the same host for test
+
+pg_autoctl create postgres --ssl-self-signed --auth trust --hostname host2 \
+--pgdata /var/lib/postgresql/test1 \
+--pgport 5432 \
+--monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require' \
+--run
+
+pg_autoctl create postgres --ssl-self-signed --auth trust --hostname host2 \
+--pgdata /var/lib/postgresql/test2 \
+--pgport 5433 \
+--monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require' \
+--run
+
+
+pg_autoctl create postgres --ssl-self-signed --auth trust --hostname host2 \
+--pgdata /var/lib/postgresql/test3 \
+--pgport 5434 \
+--monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require' \
+--run
+
+
+pg_autoctl show state
+
+postgres@host1:~$ pg_autoctl show state
+  Name |  Node |  Host:Port |       TLI: LSN |   Connection |      Reported State |      Assigned State
+-------+-------+------------+----------------+--------------+---------------------+--------------------
+node_1 |     1 | host2:5432 |   3: 0/5000000 |   read-write |             primary |             primary
+node_2 |     2 | host2:5433 |   3: 0/5000000 |    read-only |           secondary |           secondary
+node_3 |     3 | host2:5434 |   3: 0/5000000 |    read-only |           secondary |           secondary
+
+postgres@host1:~$
+
+
+
+
+
+
+
+
+pg_autoctl perform switchover
+
+
+pg_autoctl perform failover
+
+
+
+
+
+pg_autoctl perform promotion --name node_3
+
+
+
+
