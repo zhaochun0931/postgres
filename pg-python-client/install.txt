@@ -1,0 +1,6 @@
+yum install -y postgresql-devel python3-devel
+
+pip3 install --user psycopg2-binary
+
+
+python3 -c "import psycopg2; print(psycopg2.__version__)"
