@@ -213,3 +213,5 @@ pg_autoctl perform promotion --name node_3
 
 
 
+
+pg_autoctl drop node --name node_2
