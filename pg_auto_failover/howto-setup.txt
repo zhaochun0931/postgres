@@ -78,24 +78,6 @@ pg_auto_failover=# \dx
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 pg_autoctl show uri
 
 
@@ -114,6 +96,14 @@ $
 
 
 pg_autoctl show state
+
+
+
+
+
+
+
+
 
 
 
