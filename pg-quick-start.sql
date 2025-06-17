@@ -34,9 +34,17 @@ COMMIT;
 
 
 
+
+
+
 create table t2 (id int);
 
 insert into t2 select * from generate_series(1,100);
+
+select * from t2;
+
+select count(*) from t2;
+
 
 create temp table t2_temp as select * from t2 where id >= 30;
 
