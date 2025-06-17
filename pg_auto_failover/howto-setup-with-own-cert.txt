@@ -1,0 +1,54 @@
+pg_autoctl create monitor \
+    --ssl-ca-file myca.crt   \
+    --server-cert myserver.crt  \
+    --server-key myserver.key  \
+    --ssl-mode verify-full \
+    --auth trust \
+    --hostname host1 --run
+
+
+
+
+
+
+nohup pg_autoctl create postgres \
+    --ssl-ca-file myca.crt   \
+    --server-cert myserver.crt  \
+    --server-key myserver.key  \
+    --ssl-mode verify-full \
+    --auth trust \
+    --hostname host1 \
+    --pgdata /var/lib/postgresql/pg1 \
+    --pgport 5433 \
+    --monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=verify-full&sslrootcert=/var/lib/postgresql/myca.crt' \
+    --run > pg1.log 2>&1 &
+
+
+
+nohup pg_autoctl create postgres \
+    --ssl-ca-file myca.crt   \
+    --server-cert myserver.crt  \
+    --server-key myserver.key  \
+    --ssl-mode verify-full \
+    --auth trust \
+    --hostname host1 \
+    --pgdata /var/lib/postgresql/pg2 \
+    --pgport 5434 \
+    --monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=verify-full&sslrootcert=/var/lib/postgresql/myca.crt' \
+    --run > pg2.log 2>&1 &
+
+
+
+nohup pg_autoctl create postgres \
+    --ssl-ca-file myca.crt   \
+    --server-cert myserver.crt  \
+    --server-key myserver.key  \
+    --ssl-mode verify-full \
+    --auth trust \
+    --hostname host1 \
+    --pgdata /var/lib/postgresql/pg3 \
+    --pgport 5435 \
+    --monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=verify-full&sslrootcert=/var/lib/postgresql/myca.crt' \
+    --run > pg3.log 2>&1 &
+
+
