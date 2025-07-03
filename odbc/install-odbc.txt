@@ -7,5 +7,6 @@ apt install unixodbc unixodbc-dev
 apt install odbc-postgresql
 
 
+~/.odbc.ini
 
 /etc/odbcinst.ini
