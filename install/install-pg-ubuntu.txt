@@ -8,7 +8,7 @@ apt install postgresql
 
 
 
-
+/usr/lib/postgresql/16/bin/initdb
 
 
 
