@@ -1,10 +1,20 @@
+apt update
+
+# Install the unixODBC driver manager
+apt install unixodbc unixodbc-dev
+
+# Install PostgreSQL ODBC Driver
+apt install odbc-postgresql
+
+
+
+
+
+
+
 pip install pyodbc
 apt install odbc-postgresql
 apt install -y unixodbc
-
-
-
-
 
 
 
