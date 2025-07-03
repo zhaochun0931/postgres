@@ -1,5 +1,9 @@
 pip install pyodbc
 apt install odbc-postgresql
+apt install -y unixodbc
+
+
+
 
 
 
