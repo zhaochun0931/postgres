@@ -102,6 +102,20 @@ ALTER USER postgres PASSWORD 'newpassword';
 
 
 
+# initialize the postgres cluster
+
+mkdir /data1
+chown -R postgres:postgres /data1
+/usr/lib/postgresql/16/bin/initdb -D /data1
+/usr/lib/postgresql/16/bin/pg_ctl -D /data1 -l logfile start
+
+
+
+
+
+
+
+
 
 
 
