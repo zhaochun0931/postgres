@@ -10,3 +10,8 @@ apt install odbc-postgresql
 ~/.odbc.ini
 
 /etc/odbcinst.ini
+
+
+
+
+odbcinst -q -d
