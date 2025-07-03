@@ -8,15 +8,4 @@ apt install odbc-postgresql
 
 
 
-
-
-
-
-pip install pyodbc
-apt install odbc-postgresql
-apt install -y unixodbc
-
-
-
-
-
+/etc/odbcinst.ini
