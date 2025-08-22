@@ -44,7 +44,20 @@ pg_ctlcluster 17 testcluster2 stop
 rm -Rf /var/lib/postgresql/17/testcluster2/*
 
 
-pg_basebackup -h localhost -U replicator -D /var/lib/postgresql/17/testcluster2 -P -R
+pg_basebackup -h localhost -p 5433 -U replicator -D /var/lib/postgresql/17/testcluster2 -P -R
+
+
+-h → host (localhost, or IP).
+
+-p → port of the primary cluster.
+
+-U → replication user (e.g. replicator).
+
+-D → destination data directory (must be empty).
+
+-P → show progress.
+
+-R → automatically write standby.signal + primary_conninfo.
 
 
 
