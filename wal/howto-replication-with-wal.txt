@@ -1,0 +1,6 @@
+pg_createcluster 17 testcluster1
+pg_createcluster 17 testcluster2
+
+
+
+
