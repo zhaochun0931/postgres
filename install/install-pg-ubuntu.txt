@@ -78,9 +78,7 @@ ALTER USER postgres PASSWORD 'newpassword';
 
 
 
-/etc/postgresql/12/main/postgresql.conf
 
-/var/log/postgresql/postgresql-12-main.log
 
 
 
