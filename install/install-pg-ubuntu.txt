@@ -6,6 +6,11 @@ sudo apt -y install postgresql
 
 
 
+# verify
+systemctl status postgresql.service
+psql --version
+dpkg -l | grep postgresql
+pg_lsclusters
 
 
 
@@ -23,25 +28,10 @@ apt install postgresql-filedump
 
 
 
-# verify
-systemctl status postgresql.service
-psql --version
-dpkg -l | grep postgresql
-pg_lsclusters
 
 
-# dpkg -l | grep postgresql
-ii  postgresql                            12+214ubuntu0.1                   all          object-relational SQL database (supported version)
-ii  postgresql-12                         12.22-0ubuntu0.20.04.1            arm64        object-relational SQL database, version 12 server
-ii  postgresql-client-12                  12.22-0ubuntu0.20.04.1            arm64        front-end programs for PostgreSQL 12
-ii  postgresql-client-common              214ubuntu0.1                      all          manager for multiple PostgreSQL client versions
-ii  postgresql-common                     214ubuntu0.1                      all          PostgreSQL database-cluster manager
-#
 
-# pg_lsclusters
-Ver Cluster Port Status Owner    Data directory              Log file
-12  main    5432 online postgres /var/lib/postgresql/12/main /var/log/postgresql/postgresql-12-main.log
-#
+
 
 
 
