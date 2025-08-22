@@ -2,7 +2,8 @@ pg_ctlcluster is a Debian/Ubuntu–specific wrapper (from the postgresql-common 
 
 
 
-sudo pg_ctlcluster 16 main start
+su - postgres
+pg_ctlcluster 16 main start
 
 (Here 16 = PostgreSQL version, main = cluster name.)
 
@@ -13,12 +14,12 @@ sudo pg_ctlcluster 16 main start
 
 
 
-sudo pg_createcluster 17 testcluster1
-sudo pg_createcluster 17 testcluster2
+pg_createcluster 17 testcluster1
+pg_createcluster 17 testcluster2
 
 
-sudo pg_ctlcluster 17 testcluster1 start
-sudo pg_ctlcluster 17 testcluster2 start
+pg_ctlcluster 17 testcluster1 start
+pg_ctlcluster 17 testcluster2 start
 
 
 psql -p 5433 -d postgres
