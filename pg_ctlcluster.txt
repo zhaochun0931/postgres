@@ -1,0 +1,25 @@
+pg_ctlcluster is a Debian/Ubuntu–specific wrapper (from the postgresql-common package). It manages clusters (a PostgreSQL server instance with its own data directory), not individual databases.
+
+
+
+sudo pg_ctlcluster 16 main start
+
+(Here 16 = PostgreSQL version, main = cluster name.)
+
+
+
+
+
+
+
+
+sudo pg_createcluster 17 testcluster1
+sudo pg_createcluster 17 testcluster2
+
+
+sudo pg_ctlcluster 17 testcluster1 start
+sudo pg_ctlcluster 17 testcluster2 start
+
+
+psql -p 5433 -d postgres
+psql -p 5434 -d postgres
