@@ -1,5 +1,13 @@
 pg_createcluster 17 testcluster1
 pg_createcluster 17 testcluster2
+pg_lsclusters
+
+
+$ pg_lsclusters
+Ver Cluster      Port Status          Owner    Data directory                      Log file
+17  testcluster1 5433 online          postgres /var/lib/postgresql/17/testcluster1 /var/log/postgresql/postgresql-17-testcluster1.log
+17  testcluster2 5434 online,recovery postgres /var/lib/postgresql/17/testcluster2 /var/log/postgresql/postgresql-17-testcluster2.log
+$
 
 
 
@@ -62,7 +70,58 @@ pg_basebackup -h localhost -p 5433 -U replicator -D /var/lib/postgresql/17/testc
 
 
 
-/etc/postgresql/17/testcluster2/postgresql.conf
+
+
+
+
+# verify
+
+# primary
+SELECT * FROM pg_stat_replication;
+
+
+postgres=# \x
+Expanded display is on.
+postgres=# SELECT * FROM pg_stat_replication;
+-[ RECORD 1 ]----+------------------------------
+pid              | 29408
+usesysid         | 16388
+usename          | replicator
+application_name | 17/testcluster2
+client_addr      | 127.0.0.1
+client_hostname  |
+client_port      | 49512
+backend_start    | 2025-08-22 23:44:45.285723+00
+backend_xmin     |
+state            | streaming
+sent_lsn         | 0/3000168
+write_lsn        | 0/3000168
+flush_lsn        | 0/3000168
+replay_lsn       | 0/3000168
+write_lag        |
+flush_lag        |
+replay_lag       |
+sync_priority    | 0
+sync_state       | async
+reply_time       | 2025-08-22 23:47:04.872472+00
+
+postgres=#
+
+
+
+
+# secondary
+SELECT pg_is_in_recovery();
+
+postgres=# \x
+Expanded display is on.
+postgres=# SELECT pg_is_in_recovery();
+-[ RECORD 1 ]-----+--
+pg_is_in_recovery | t
+
+postgres=#
+
+
 
 
 
