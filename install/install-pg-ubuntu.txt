@@ -1,8 +1,11 @@
 # install
-
 sudo apt install -y postgresql-common
 sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-apt install postgresql
+sudo apt -y install postgresql
+
+
+
+
 
 
 
