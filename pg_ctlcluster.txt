@@ -23,3 +23,10 @@ sudo pg_ctlcluster 17 testcluster2 start
 
 psql -p 5433 -d postgres
 psql -p 5434 -d postgres
+
+
+
+
+
+pg_dropcluster 17 testcluster1
+pg_dropcluster 17 testcluster2
