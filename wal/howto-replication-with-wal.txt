@@ -57,8 +57,7 @@ pg_basebackup -h localhost -p 5433 -U replicator -D /var/lib/postgresql/17/testc
 
 -P → show progress.
 
--R → automatically write standby.signal + primary_conninfo.
-
+-R → creates a standby.signal and configures primary_conninfo automatically.
 
 
 
