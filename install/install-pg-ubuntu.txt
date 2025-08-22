@@ -30,14 +30,18 @@ pg_ctlcluster 17 main stop
 
 /etc/postgresql/17/main
 
-├── conf.d
-├── environment
-├── pg_ctl.conf
-├── pg_hba.conf
-├── pg_ident.conf
-├── postgresql.conf
-└── start.conf
-
+$ ls -al /etc/postgresql/17/main
+total 68
+drwxr-xr-x 3 postgres postgres  4096 Aug 21 17:03 .
+drwxr-xr-x 3 postgres postgres  4096 Aug 21 17:03 ..
+drwxr-xr-x 2 postgres postgres  4096 Aug 21 17:03 conf.d
+-rw-r--r-- 1 postgres postgres   315 Aug 21 17:03 environment
+-rw-r--r-- 1 postgres postgres   143 Aug 21 17:03 pg_ctl.conf
+-rw-r----- 1 postgres postgres  5924 Aug 21 17:03 pg_hba.conf
+-rw-r----- 1 postgres postgres  2640 Aug 21 17:03 pg_ident.conf
+-rw-r--r-- 1 postgres postgres 30963 Aug 21 17:03 postgresql.conf
+-rw-r--r-- 1 postgres postgres   317 Aug 21 17:03 start.conf
+$
 
 
 
