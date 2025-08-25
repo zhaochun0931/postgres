@@ -1,0 +1,12 @@
+SELECT add_numbers(10, 20);
+
+
+test=# select add_numbers(100,200);
+ add_numbers
+-------------
+         300
+(1 row)
+
+test=#
+
+
