@@ -1,0 +1,8 @@
+alter database test rename to test2;
+
+
+
+SELECT datname, spcname AS tablespace
+FROM pg_database d
+JOIN pg_tablespace t ON d.dattablespace = t.oid
+WHERE datname = 'your_database_name';
