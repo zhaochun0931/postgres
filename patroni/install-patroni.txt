@@ -1,5 +1,4 @@
 # ubuntu
-
 apt install -y python3-psycopg2
 apt install -y python3-pip
 pip install patroni[dependencies]
@@ -12,7 +11,6 @@ pip install patroni[etcd3]
 
 
 # redhat
-
 yum install python3-psycopg2
 pip3 install patroni[etcd3]
 
@@ -21,9 +19,4 @@ pip3 install patroni[etcd3]
 
 
  # verify
-
 patroni --version
-
-
-/usr/local/bin/patroni --version
-
