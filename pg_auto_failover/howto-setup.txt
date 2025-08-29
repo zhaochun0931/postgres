@@ -7,16 +7,14 @@ sudo systemctl disable postgresql
 
 
 # create the monitor database
-
-export PGDATA=/var/lib/postgresql/17/testcluster1
+export PGDATA=/var/lib/postgresql/17/testcluster2
 export PGPORT=5432
-
-
 rm -Rf .config/ .local/ 
 rm -Rf backup/ test/ /var/run/postgresql/*
+pg_autoctl create monitor --ssl-self-signed --auth trust --hostname localhost --run
 
 
-pg_autoctl create monitor --ssl-self-signed --auth trust --hostname host1 --run
+
 
 
 
@@ -48,19 +46,24 @@ postgres@host1:~$ pg_autoctl create monitor --ssl-self-signed --auth trust --hos
 
 psql -l
 
-                                                           List of databases
-       Name       |  Owner   | Encoding | Locale Provider |   Collate   |    Ctype    | ICU Locale | ICU Rules |   Access privileges
-------------------+----------+----------+-----------------+-------------+-------------+------------+-----------+-----------------------
- pg_auto_failover | autoctl  | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           |
- postgres         | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           |
- template0        | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           | =c/postgres          +
-                  |          |          |                 |             |             |            |           | postgres=CTc/postgres
- template1        | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           | =c/postgres          +
-                  |          |          |                 |             |             |            |           | postgres=CTc/postgres
+$ psql -l
+                                                         List of databases
+       Name       |  Owner   | Encoding | Locale Provider |   Collate   |    Ctype    | Locale | ICU Rules |   Access privileges
+------------------+----------+----------+-----------------+-------------+-------------+--------+-----------+-----------------------
+ pg_auto_failover | autoctl  | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |        |           |
+ postgres         | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |        |           |
+ template0        | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |        |           | =c/postgres          +
+                  |          |          |                 |             |             |        |           | postgres=CTc/postgres
+ template1        | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |        |           | =c/postgres          +
+                  |          |          |                 |             |             |        |           | postgres=CTc/postgres
 (4 rows)
 
+$
 
 
+
+
+psql pg_auto_failover
 
 postgres@host1:~$ psql pg_auto_failover
 psql (16.9 (Ubuntu 16.9-0ubuntu0.24.04.1))
@@ -78,6 +81,11 @@ pg_auto_failover=# \dx
 
 
 
+
+
+
+export PGDATA=/var/lib/postgresql/17/testcluster2
+export PGPORT=5432
 pg_autoctl show uri
 
 
@@ -169,7 +177,8 @@ nohup pg_autoctl create postgres --ssl-self-signed --auth trust --hostname host1
 
 
 
-
+export PGDATA=/var/lib/postgresql/17/testcluster2
+export PGPORT=5432
 pg_autoctl show state
 
 postgres@host1:~$ pg_autoctl show state
