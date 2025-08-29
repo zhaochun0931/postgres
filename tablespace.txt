@@ -32,7 +32,8 @@ su - postgres
 mkdir xxx
 
 
-CREATE TABLESPACE myts LOCATION '/var/lib/postgresql/xxx'
+CREATE TABLESPACE myts LOCATION '/var/lib/postgresql/xxx';
+
 alter database test rename to test2;
 
 ALTER DATABASE test2 SET TABLESPACE myts;
