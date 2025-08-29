@@ -3,6 +3,19 @@ pg_ctlcluster is a Debian/Ubuntu–specific wrapper (from the postgresql-common 
 
 
 su - postgres
+
+pg_lsclusters
+
+
+$ pg_lsclusters
+Ver Cluster      Port Status          Owner    Data directory                      Log file
+17  main         5432 online          postgres /var/lib/postgresql/17/main         /var/log/postgresql/postgresql-17-main.log
+17  testcluster1 5433 online          postgres /var/lib/postgresql/17/testcluster1 /var/log/postgresql/postgresql-17-testcluster1.log
+17  testcluster2 5434 online,recovery postgres /var/lib/postgresql/17/testcluster2 /var/log/postgresql/postgresql-17-testcluster2.log
+$
+
+
+
 pg_ctlcluster 16 main start
 
 (Here 16 = PostgreSQL version, main = cluster name.)
@@ -24,6 +37,7 @@ pg_ctlcluster 17 testcluster2 start
 
 psql -p 5433 -d postgres
 psql -p 5434 -d postgres
+
 
 
 
