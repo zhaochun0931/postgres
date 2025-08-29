@@ -8,8 +8,8 @@ sudo systemctl disable postgresql
 
 
 
-export PGDATA=/var/lib/postgresql/test
-export PGPORT=5433
+export PGDATA=/var/lib/postgresql/17/testcluster1
+export PGPORT=5432
 
 
 rm -Rf .config/ .local/ 
@@ -126,6 +126,13 @@ pg_autoctl create postgres \
 --ssl-self-signed \
 --monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require' \
 --run
+
+
+
+
+
+
+
 
 
 
