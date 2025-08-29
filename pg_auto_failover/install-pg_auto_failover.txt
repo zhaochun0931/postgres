@@ -11,7 +11,6 @@ apt-get install -y --no-install-recommends postgresql-16
 
 
 apt-get install pg-auto-failover-cli -y
-
 apt-get install postgresql-16-auto-failover
 
 
