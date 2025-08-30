@@ -40,9 +40,9 @@ mkdir xxx
 
 CREATE TABLESPACE myts LOCATION '/var/lib/postgresql/xxx';
 
-alter database test rename to test2;
+alter database db1 rename to db2;
 
-ALTER DATABASE test2 SET TABLESPACE myts;
+ALTER DATABASE db2 SET TABLESPACE myts;
 
 SELECT datname, spcname
 FROM pg_database d
