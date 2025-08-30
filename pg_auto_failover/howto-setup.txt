@@ -22,10 +22,14 @@ sudo systemctl disable postgresql
 
 
 # create the monitor database
-export PGDATA=/var/lib/postgresql/17/testcluster2
-export PGPORT=5432
+
 rm -Rf .config/ .local/ 
 rm -Rf backup/ test/ /var/run/postgresql/*
+
+export PGDATA=/var/lib/postgresql/17/monitor
+export PGPORT=5432
+
+
 pg_autoctl create monitor --ssl-self-signed --auth trust --hostname localhost --run
 
 
