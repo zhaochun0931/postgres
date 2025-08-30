@@ -1,8 +1,8 @@
 /etc/hosts
 
-10.211.55.37 linux1
-10.211.55.39 linux2
-10.211.55.40 linux3
+10.211.55.37 host1
+10.211.55.39 host2
+10.211.55.40 host3
 
 
 
@@ -21,45 +21,16 @@ sudo systemctl disable postgresql
 
 
 
-# create the monitor database
-
+# create the monitor in the host1
 rm -Rf .config/ .local/ 
-rm -Rf backup/ test/ /var/run/postgresql/*
+rm -Rf /var/run/postgresql/*
 
-export PGDATA=/var/lib/postgresql/17/monitor
+export PGDATA=/var/lib/postgresql/17/pgmonitor
 export PGPORT=5432
 
 
-pg_autoctl create monitor --ssl-self-signed --auth trust --hostname localhost --run
+pg_autoctl create monitor --ssl-self-signed --auth trust --hostname host1 --run
 
-
-
-
-
-
-postgres@host1:~$ pg_autoctl create monitor --ssl-self-signed --auth trust --hostname host1 --run
-04:01:21 1199 INFO  Using default --ssl-mode "require"
-04:01:21 1199 INFO  Using --ssl-self-signed: pg_autoctl will create self-signed certificates, allowing for encrypted network traffic
-04:01:21 1199 WARN  Self-signed certificates provide protection against eavesdropping; this setup does NOT protect against Man-In-The-Middle attacks nor Impersonation attacks.
-04:01:21 1199 WARN  See https://www.postgresql.org/docs/current/libpq-ssl.html for details
-04:01:21 1199 WARN  Failed to find pg_ctl command in your PATH
-04:01:21 1199 INFO   /usr/bin/openssl req -new -x509 -days 365 -nodes -text -out /data/server.crt -keyout /data/server.key -subj "/CN=host1"
-04:01:21 1199 INFO  Started pg_autoctl postgres service with pid 1207
-04:01:21 1207 INFO   /usr/bin/pg_autoctl do service postgres --pgdata /data -v
-04:01:21 1199 INFO  Started pg_autoctl listener service with pid 1208
-04:01:21 1212 INFO   /usr/lib/postgresql/16/bin/postgres -D /data -p 5432 -h *
-04:01:21 1207 INFO  Postgres is now serving PGDATA "/data" on port 5432 with pid 1212
-04:01:21 1208 WARN  NOTICE:  installing required extension "btree_gist"
-04:01:21 1208 INFO  Granting connection privileges on 10.211.55.0/24
-04:01:21 1208 WARN  Skipping HBA edits (per --skip-pg-hba) for rule: hostssl "pg_auto_failover" "autoctl_node" 10.211.55.0/24 trust
-04:01:21 1208 INFO  Your pg_auto_failover monitor instance is now ready on port 5432.
-04:01:21 1208 INFO  Monitor has been successfully initialized.
-04:01:21 1208 INFO   /usr/bin/pg_autoctl do service listener --pgdata /data -v
-04:01:21 1208 INFO  Managing the monitor at postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require
-04:01:21 1208 INFO  Reloaded the new configuration from "/var/lib/postgresql/.config/pg_autoctl/data/pg_autoctl.cfg"
-04:01:21 1208 INFO  Reloading Postgres configuration and HBA rules
-04:01:22 1208 INFO  The version of extension "pgautofailover" is "2.1" on the monitor
-04:01:22 1208 INFO  Contacting the monitor to LISTEN to its events.
 
 
 
@@ -82,28 +53,13 @@ $
 
 
 
-psql pg_auto_failover
-
-postgres@host1:~$ psql pg_auto_failover
-psql (16.9 (Ubuntu 16.9-0ubuntu0.24.04.1))
-Type "help" for help.
-
-pg_auto_failover=# \dx
-                             List of installed extensions
-      Name      | Version |   Schema   |                  Description
-----------------+---------+------------+-----------------------------------------------
- btree_gist     | 1.7     | public     | support for indexing common datatypes in GiST
- pgautofailover | 2.1     | public     | pg_auto_failover
- plpgsql        | 1.0     | pg_catalog | PL/pgSQL procedural language
-(3 rows)
 
 
 
 
 
 
-
-export PGDATA=/var/lib/postgresql/17/testcluster2
+export PGDATA=/var/lib/postgresql/17/pgmonitor
 export PGPORT=5432
 pg_autoctl show uri
 
@@ -137,14 +93,27 @@ pg_autoctl show state
 
 
 
+# create the primary in the host2
+rm -Rf .config/ .local/
+
+export PGDATA=/var/lib/postgresql/17/pg2
+export PGPORT=5432
 
 pg_autoctl create postgres \
---hostname host2 \
+--hostname linux2 \
 --auth trust \
 --ssl-self-signed \
---monitor 'postgres://autoctl_node@host1:5432/pg_auto_failover?sslmode=require' \
+--monitor 'postgres://autoctl_node@linux1:5432/pg_auto_failover?sslmode=require' \
 --run
 
+
+
+
+
+# create the secondary in the host3
+rm -Rf .config/ .local/
+export PGDATA=/var/lib/postgresql/17/pg3
+export PGPORT=5432
 
 
 pg_autoctl create postgres \
@@ -157,8 +126,15 @@ pg_autoctl create postgres \
 
 
 
+pg_autoctl show state
 
+$ pg_autoctl show state
+Name |  Node |   Host:Port |       TLI: LSN |   Connection |      Reported State |      Assigned State
+-------+-------+-------------+----------------+--------------+---------------------+--------------------
+node_1 |     1 | linux2:5432 |   3: 0/5000488 |   read-write |             primary |             primary
+node_2 |     2 | linux3:5432 |   3: 0/5000488 |    read-only |           secondary |           secondary
 
+$
 
 
 
