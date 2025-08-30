@@ -1,4 +1,4 @@
-alter database test rename to test2;
+alter database db1 rename to db2;
 
 
 
@@ -15,6 +15,12 @@ SELECT datname, spcname AS tablespace
 FROM pg_database d
 JOIN pg_tablespace t ON d.dattablespace = t.oid
 ORDER BY datname;
+
+
+SELECT spcname, pg_tablespace_location(oid) AS location
+FROM pg_tablespace;
+
+
 
 
 
