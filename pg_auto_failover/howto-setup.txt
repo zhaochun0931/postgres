@@ -1,3 +1,18 @@
+/etc/hosts
+
+10.211.55.37 linux1
+10.211.55.39 linux2
+10.211.55.40 linux3
+
+
+
+
+
+
+
+
+
+
 su - postgres
 
 sudo systemctl stop postgresql
