@@ -1,1 +1,4 @@
+docker compose up
+
+docker exec -it tmp-monitor-1 bash
 
