@@ -1,0 +1,78 @@
+services:
+  monitor:
+    image: citusdata/pg_auto_failover
+    container_name: monitor
+    hostname: monitor
+    environment:
+      - PGUSER=postgres
+      - PGPASSWORD=password
+    ports:
+      - "5431:5432"   # expose monitor externally
+    command: >
+      bash -c "
+      pg_autoctl create monitor
+        --pgdata /var/lib/postgresql/data/monitor
+        --hostname monitor
+        --auth trust
+      && pg_autoctl run"
+    volumes:
+      - ./monitor_data:/var/lib/postgresql/data
+    networks:
+      - pgnet
+
+  node1:
+    image: citusdata/pg_auto_failover
+    container_name: node1
+    hostname: node1
+    environment:
+      - PGUSER=postgres
+      - PGPASSWORD=password
+    ports:
+      - "5432:5432"   # expose primary candidate externally
+    depends_on:
+      - monitor
+    command: >
+      bash -c "
+      pg_autoctl create postgres
+        --pgdata /var/lib/postgresql/data/node1
+        --hostname node1
+        --pgport 5432
+        --name node1
+        --auth trust
+        --monitor postgres://autoctl_node@monitor:5432/pg_auto_failover
+      && pg_autoctl run"
+    volumes:
+      - ./node1_data:/var/lib/postgresql/data
+    networks:
+      - pgnet
+
+  node2:
+    image: citusdata/pg_auto_failover
+    container_name: node2
+    hostname: node2
+    environment:
+      - PGUSER=postgres
+      - PGPASSWORD=password
+    ports:
+      - "5433:5432"   # expose standby externally
+    depends_on:
+      - monitor
+    command: >
+      bash -c "
+      pg_autoctl create postgres
+        --pgdata /var/lib/postgresql/data/node2
+        --hostname node2
+        --pgport 5432
+        --name node2
+        --auth trust
+        --monitor postgres://autoctl_node@monitor:5432/pg_auto_failover
+      && pg_autoctl run"
+    volumes:
+      - ./node2_data:/var/lib/postgresql/data
+    networks:
+      - pgnet
+
+
+networks:
+  pgnet:   # custom network
+    driver: bridge
