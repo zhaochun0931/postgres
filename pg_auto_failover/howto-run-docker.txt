@@ -2,3 +2,19 @@ docker compose up
 
 docker exec -it tmp-monitor-1 bash
 
+
+
+pg_autoctl show state
+
+
+
+pg_autoctl perform switchover
+
+
+
+
+pg_autoctl perform promotion --name node_1
+
+pg_autoctl perform promotion --name node_2
+
+pg_autoctl perform promotion --name node_3
