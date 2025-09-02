@@ -1,6 +1,6 @@
 services:
   monitor:
-    image: citusdata/pg_auto_failover
+    image: citusdata/pg_auto_failover:demo
     environment:
       PGDATA: /tmp/pgaf
       PG_AUTOCTL_DEBUG: 1
@@ -12,7 +12,7 @@ services:
 
 
   node1:
-    image: citusdata/pg_auto_failover
+    image: citusdata/pg_auto_failover:demo
     environment:
       PGDATA: /tmp/pgaf
       PGUSER: postgres
@@ -29,7 +29,7 @@ services:
 
 
   node2:
-    image: citusdata/pg_auto_failover
+    image: citusdata/pg_auto_failover:demo
     environment:
       PGDATA: /tmp/pgaf
       PGUSER: postgres
@@ -47,7 +47,7 @@ services:
 
 
   node3:
-    image: citusdata/pg_auto_failover
+    image: citusdata/pg_auto_failover:demo
     environment:
       PGDATA: /tmp/pgaf
       PGUSER: postgres
