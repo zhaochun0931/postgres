@@ -16,7 +16,7 @@ postgresql.conf
 
 
 archive_mode = on
-archive_command = 'cp %p /var/lib/postgresql/my_wal/%f'
+archive_command = 'cp %p /var/lib/postgresql/mywal/%f'
 
 
 
@@ -31,7 +31,7 @@ pg_ctlcluster 17 test1 start
 
 
 
-
+su - postgres
 
 psql 
 
