@@ -64,7 +64,13 @@ This backup is our starting point.
 
 
 DELETE FROM t1 WHERE id=2;
+SELECT now();
+SELECT pg_switch_wal();
 
+
+DELETE FROM t1 WHERE id=3;
+SELECT now();
+SELECT pg_switch_wal();
 
 
 
