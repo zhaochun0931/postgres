@@ -101,6 +101,9 @@ chown -R postgres:postgres /data1
 
 
 
+or you can use the pg_createcluster to create the cluster
+
+
 
 
 
