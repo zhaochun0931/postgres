@@ -47,24 +47,22 @@ SELECT pg_switch_wal();
 SELECT now();
 
 
-DELETE FROM t1 WHERE id=2;
-
-
-
-
-
-
 
 
 
 pg_basebackup -D /var/lib/postgresql/mybackup -Fp -Xs -P
-
 
 -Fp → plain format (files).
 
 -Xs → include WAL stream.
 
 This backup is our starting point.
+
+
+
+
+
+DELETE FROM t1 WHERE id=2;
 
 
 
@@ -84,6 +82,7 @@ touch recovery.signal
 
 
 restore_command = 'cp /var/lib/postgresql/mywal/%f %p'
+recovery_target_time = '2025-09-03 10:56:03'
 
 
 
