@@ -86,6 +86,14 @@ If your database is quiet, it may take a while before you see files.
 
 
 
+Force WAL archiving
+
+SELECT pg_switch_wal();
+
+
+
+
+
 
 
 
