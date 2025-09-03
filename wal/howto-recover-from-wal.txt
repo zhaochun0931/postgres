@@ -89,3 +89,8 @@ recovery_target_time = '2025-09-03 10:56:03'
 
 
 pg_ctlcluster 17 test1 start
+
+
+then remove the recovery.signal file and it will becomes writable
+
+rm recovery.signal
