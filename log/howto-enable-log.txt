@@ -1,0 +1,6 @@
+postgresql.conf
+  
+  
+  
+logging_collector = on
+log_directory = 'pg_log'
