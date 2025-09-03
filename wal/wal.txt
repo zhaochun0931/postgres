@@ -69,6 +69,32 @@ Logical Replication: WAL records are decoded into row-level changes and sent to 
 
 
 
+Understand when WAL is archived
+
+WAL is not copied to archive immediately when generated.
+
+By default:
+
+At checkpoint time.
+
+When a WAL segment fills up (16 MB).
+
+If your database is quiet, it may take a while before you see files.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 select * from pg_stat_replication;
