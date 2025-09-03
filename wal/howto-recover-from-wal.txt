@@ -80,9 +80,12 @@ cp -R /var/lib/postgresql/mybackup/* /var/lib/postgresql/17/test1
 touch recovery.signal
 
 
-
+postgresql.conf
 restore_command = 'cp /var/lib/postgresql/mywal/%f %p'
 recovery_target_time = '2025-09-03 10:56:03'
 
 
 
+
+
+pg_ctlcluster 17 test1 start
