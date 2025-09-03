@@ -1,0 +1,12 @@
+/usr/lib/postgresql/17/bin/pg_waldump
+
+
+/usr/lib/postgresql/17/bin/pg_waldump  --version
+
+
+
+
+
+
+
+/usr/lib/postgresql/17/bin/pg_waldump  000000010000000000000001
