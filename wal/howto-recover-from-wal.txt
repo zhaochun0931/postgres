@@ -15,3 +15,30 @@ INSERT INTO accounts VALUES (1,100), (2,200), (3,300);
 
 
 
+
+
+
+pg_basebackup -D /var/lib/postgresql/pitr_backup -Fp -Xs -P
+
+
+-Fp → plain format (files).
+
+-Xs → include WAL stream.
+
+This backup is our starting point.
+
+
+
+
+
+
+
+pg_ctlcluster 17 main stop
+
+rm -Rf /var/lib/postgresql/17/main/*
+
+cp -R /var/lib/postgresql/pitr_backup /var/lib/postgresql/17/main
+
+
+touch recovery.signal
+
