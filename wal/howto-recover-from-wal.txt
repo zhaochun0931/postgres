@@ -59,7 +59,7 @@ DELETE FROM accounts WHERE id=2;
 
 
 
-pg_basebackup -D /var/lib/postgresql/pitr_backup -Fp -Xs -P
+pg_basebackup -D /var/lib/postgresql/mybackup -Fp -Xs -P
 
 
 -Fp → plain format (files).
@@ -78,14 +78,14 @@ pg_ctlcluster 17 test1 stop
 
 rm -Rf /var/lib/postgresql/17/test1/*
 
-mv /var/lib/postgresql/pitr_backup/* /var/lib/postgresql/17/test1
+mv /var/lib/postgresql/mybackup/* /var/lib/postgresql/17/test1
 
 
 touch recovery.signal
 
 
 
-restore_command = 'cp /var/lib/postgresql/my_wal/%f %p'
+restore_command = 'cp /var/lib/postgresql/mywal/%f %p'
 
 
 
