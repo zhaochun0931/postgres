@@ -1,7 +1,13 @@
+pg_dropcluster 17 test1 --stop
 pg_createcluster 17 test1
 
 
 
+
+
+su - postgres
+
+mkdir mybackup mywal
 
 
 
@@ -26,7 +32,6 @@ pg_ctlcluster 17 test1 start
 
 
 
-su - postgres
 
 psql 
 
