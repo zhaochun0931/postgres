@@ -1,9 +1,34 @@
+pg_createcluster 17 test1
+
+
+
+
+
+
+
+postgresql.conf
+
+
+archive_mode = on
+archive_command = 'cp %p /var/lib/postgresql/my_wal/%f'
+
+
+
+
+
+pg_ctlcluster 17 test1 start
+
+
+
+
+
+
+
+
+
 su - postgres
 
 psql 
-
-
-
 
 CREATE DATABASE test;
 \c test
@@ -16,7 +41,10 @@ select * from accounts;
 
 SELECT pg_switch_wal();
 
+SELECT now();
 
+
+DELETE FROM accounts WHERE id=2;
 
 
 
@@ -41,12 +69,18 @@ This backup is our starting point.
 
 
 
-pg_ctlcluster 17 main stop
+pg_ctlcluster 17 test1 stop
 
-rm -Rf /var/lib/postgresql/17/main/*
+rm -Rf /var/lib/postgresql/17/test1/*
 
-cp -R /var/lib/postgresql/pitr_backup /var/lib/postgresql/17/main
+mv /var/lib/postgresql/pitr_backup/* /var/lib/postgresql/17/test1
 
 
 touch recovery.signal
+
+
+
+restore_command = 'cp /var/lib/postgresql/my_wal/%f %p'
+
+
 
