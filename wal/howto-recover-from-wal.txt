@@ -38,18 +38,16 @@ psql
 CREATE DATABASE test;
 \c test
 
-CREATE TABLE accounts(id int primary key, balance int);
-
-INSERT INTO accounts VALUES (1,100), (2,200), (3,300);
-
-select * from accounts;
+CREATE TABLE t1(id int primary key, balance int);
+INSERT INTO t1 VALUES (1,100), (2,200), (3,300);
+select * from t1;
 
 SELECT pg_switch_wal();
 
 SELECT now();
 
 
-DELETE FROM accounts WHERE id=2;
+DELETE FROM t1 WHERE id=2;
 
 
 
