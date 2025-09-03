@@ -1,6 +1,73 @@
 Write-Ahead Logging(WAL) and the vacuum process
 
 
+It’s an append-only log that records every change to the database before the change is written to the data files.
+
+Stored in $PGDATA/pg_wal/ 
+
+(older versions: pg_xlog/)
+
+
+
+
+
+1. Client issues a write
+
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+
+
+2. Generate a WAL record
+The backend process creates a WAL record describing this change:
+
+“In table X, page Y, at offset Z: subtract 100 from balance.”
+
+WAL records are lightweight and sequential.
+
+
+3. Append WAL before touching data files
+
+The WAL record is flushed to disk (pg_wal/ files) before the actual table/heap page is written.
+
+This guarantees:
+
+If PostgreSQL crashes, WAL can replay the change.
+
+No committed transaction is lost.
+
+
+
+
+
+
+
+
+
+WAL Files
+
+Stored in $PGDATA/pg_wal/.
+
+Each file = 16MB segment (by default).
+
+Old WAL segments are either:
+
+Recycled, or
+
+Archived (if archive_mode=on) for PITR (Point-In-Time Recovery) or replication.
+
+
+
+
+🌐 WAL in Replication
+
+WAL is not just for crash recovery — it’s also the basis of replication:
+
+Streaming Replication: WAL is shipped continuously to standby servers.
+
+Logical Replication: WAL records are decoded into row-level changes and sent to subscribers.
+
+
+
+
 
 
 
