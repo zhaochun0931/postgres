@@ -81,6 +81,11 @@ When a WAL segment fills up (16 MB).
 
 If your database is quiet, it may take a while before you see files.
 
+Postgres only runs the archive_command once a WAL segment (16MB) is complete.
+
+
+
+
 
 
 
