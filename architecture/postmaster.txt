@@ -1,0 +1,48 @@
+In PostgreSQL, the postmaster is the main PostgreSQL server process — the "parent" daemon that starts when you run postgres (or the wrapper pg_ctl start)
+
+
+
+
+
+
+
+Startup & Initialization
+
+
+
+When you start PostgreSQL, the postmaster initializes shared memory, semaphores, and other resources needed by the database system.
+
+Process Manager
+It forks and manages child processes
+
+
+Connection Handling
+The postmaster listens for incoming connections (TCP/IP or Unix socket). When a client connects, it forks a backend process (postgres process) dedicated to serving that client.
+
+Crash Recovery
+If a backend crashes, postmaster detects it, logs the failure, and can initiate crash recovery using WAL (Write-Ahead Log).
+
+PID File (postmaster.pid)
+It writes its process ID to $PGDATA/postmaster.pid, which is used to prevent multiple instances from starting in the same data directory.
+
+👉 Historically, the executable was called postmaster. Nowadays, the binary is just postgres
+
+
+
+
+
+
+PostgreSQL writes the postmaster’s PID into a file:
+
+cat $PGDATA/postmaster.pid
+
+
+The first line is the postmaster PID.
+
+
+
+
+
+
+
+
