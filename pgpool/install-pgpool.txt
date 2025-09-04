@@ -11,3 +11,9 @@ dnf install pgpool-II-pg17-extensions pgpool-II-pg17
 
 
 dnf install pgpool-II-pg17-debuginfo pgpool-II-pg17-devel
+
+
+
+systemctl enable pgpool.service
+
+systemctl start pgpool.service
