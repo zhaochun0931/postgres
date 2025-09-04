@@ -30,4 +30,125 @@ t_xmin_commit / t_xmin_aborted flags → whether the creating transaction commit
 
 
 
+DROP TABLE IF EXISTS mvcc_demo;
+
+CREATE TABLE mvcc_demo (
+    id SERIAL PRIMARY KEY,
+    name TEXT
+);
+
+INSERT INTO mvcc_demo (name) VALUES ('Alice'), ('Bob');
+
+
+
+# Open Session 1
+  
+BEGIN;
+UPDATE mvcc_demo SET name = 'Alice v2' WHERE id = 1;
+
+
+# Do not commit yet.
+
+
+# SELECT ctid, xmin, xmax, * FROM mvcc_demo WHERE id = 1;
+ ctid  | xmin | xmax | id |   name
+-------+------+------+----+----------
+ (0,3) |  756 |    0 |  1 | Alice v2
+(1 row)
+
+test=#
+
+
+👉 Session 1 sees the new row version, Alice v2
+
+
+
+
+
+# Open Session 2 (different psql window)
+
+
+SELECT ctid, xmin, xmax, * FROM mvcc_demo WHERE id = 1;
+
+
+👉 Session 2 still sees the old version (Alice), because the update in Session 1 hasn’t committed yet.
+
+This is MVCC in action → two different versions visible depending on transaction snapshot.
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE EXTENSION IF NOT EXISTS pageinspect;
+
+SELECT lp, t_xmin, t_xmax, t_ctid, t_data FROM heap_page_items(get_raw_page('mvcc_demo', 0));
+
+
+
+test=# SELECT lp, t_xmin, t_xmax, t_ctid, t_data FROM heap_page_items(get_raw_page('mvcc_demo', 0));
+ lp | t_xmin | t_xmax | t_ctid |            t_data
+----+--------+--------+--------+------------------------------
+  1 |        |        |        |
+  2 |    755 |      0 | (0,2)  | \x0200000009426f62
+  3 |    756 |    758 | (0,4)  | \x0100000013416c696365207632
+  4 |    758 |      0 | (0,4)  | \x0100000013416c696365207633
+(4 rows)
+
+test=#
+
+
+👉 This will show all tuples in the page, even dead ones.
+You’ll see both:
+
+Alice with t_xmax set (marked deleted/updated)
+
+Alice v2 with t_xmin set (new row)
+
+
+
+
+
+
+Old rows are cleaned by VACUUM
+
+
+test=# VACUUM mvcc_demo;
+VACUUM
+test=#
+test=# VACUUM VERBOSE mvcc_demo;
+INFO:  vacuuming "test.public.mvcc_demo"
+INFO:  finished vacuuming "test.public.mvcc_demo": index scans: 0
+pages: 0 removed, 1 remain, 1 scanned (100.00% of total)
+tuples: 1 removed, 2 remain, 0 are dead but not yet removable
+removable cutoff: 759, which was 0 XIDs old when operation ended
+frozen: 0 pages from table (0.00% of total) had 0 tuples frozen
+index scan not needed: 0 pages from table (0.00% of total) had 0 dead item identifiers removed
+avg read rate: 0.000 MB/s, avg write rate: 0.000 MB/s
+buffer usage: 12 hits, 0 misses, 0 dirtied
+WAL usage: 2 records, 0 full page images, 121 bytes
+system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+INFO:  vacuuming "test.pg_toast.pg_toast_24577"
+INFO:  finished vacuuming "test.pg_toast.pg_toast_24577": index scans: 0
+pages: 0 removed, 0 remain, 0 scanned (100.00% of total)
+tuples: 0 removed, 0 remain, 0 are dead but not yet removable
+removable cutoff: 759, which was 0 XIDs old when operation ended
+new relfrozenxid: 759, which is 1 XIDs ahead of previous value
+frozen: 0 pages from table (100.00% of total) had 0 tuples frozen
+index scan not needed: 0 pages from table (100.00% of total) had 0 dead item identifiers removed
+avg read rate: 0.000 MB/s, avg write rate: 0.000 MB/s
+buffer usage: 6 hits, 0 misses, 0 dirtied
+WAL usage: 1 records, 0 full page images, 188 bytes
+system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+VACUUM
+test=#
+
+
+
 
