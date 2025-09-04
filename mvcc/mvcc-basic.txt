@@ -1,0 +1,33 @@
+Multi-Version Concurrency Control (MVCC) 
+
+
+MVCC is how Postgres handles concurrent transactions without locking everything. Instead of overwriting rows, it keeps multiple versions of each row.
+
+
+
+
+Tuple Structure
+
+Each row in a table (a heap tuple) has hidden system columns:
+
+xmin → Transaction ID that created the row.
+
+xmax → Transaction ID that deleted/updated the row (if any).
+
+ctid → Physical location of the tuple (used for HOT updates).
+
+t_xmin_commit / t_xmin_aborted flags → whether the creating transaction committed or aborted.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
