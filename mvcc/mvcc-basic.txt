@@ -79,6 +79,17 @@ This is MVCC in action → two different versions visible depending on transacti
 
 
 
+# Commit in Session 1
+COMMIT;
+
+
+Now Session 2 runs again:
+
+SELECT ctid, xmin, xmax, * FROM mvcc_demo WHERE id = 1;
+
+
+👉 Now Session 2 sees Alice v2. The old version is still in the table, but marked dead.
+
 
 
 
