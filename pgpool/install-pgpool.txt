@@ -2,3 +2,12 @@ vi /etc/yum.repos.d/pgdg-redhat-all.repo
 
 
 
+dnf install https://www.pgpool.net/yum/rpms/4.6/redhat/rhel-9-x86_64/pgpool-II-release-4.6-1.noarch.rpm
+
+
+dnf install pgpool-II-pg17
+
+dnf install pgpool-II-pg17-extensions pgpool-II-pg17
+
+
+dnf install pgpool-II-pg17-debuginfo pgpool-II-pg17-devel
