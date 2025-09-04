@@ -1,0 +1,4 @@
+vi /etc/yum.repos.d/pgdg-redhat-all.repo
+
+
+
