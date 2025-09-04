@@ -1,0 +1,4 @@
+cp /etc/pgpool-II/pgpool.conf.sample pgpool.conf
+
+
+  
