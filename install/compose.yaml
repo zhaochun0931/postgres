@@ -18,6 +18,8 @@ services:
       POSTGRES_PASSWORD: password
     networks:
       - postgres-network
+    ports:
+      - "5431:5432"   # host 5431 -> container 5432
 
   pg2:
     image: postgres
@@ -36,6 +38,8 @@ services:
       POSTGRES_PASSWORD: password
     networks:
       - postgres-network
+    ports:
+      - "5432:5432"   # host 5432 -> container 5432
   
   pg3:
     image: postgres
@@ -54,6 +58,8 @@ services:
       POSTGRES_PASSWORD: password
     networks:
       - postgres-network
+    ports:
+      - "5433:5432"   # host 5433 -> container 5432
 
 networks:
   postgres-network:
