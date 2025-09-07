@@ -1,0 +1,14 @@
+docker compose up
+  
+
+
+
+
+
+
+
+psql -h localhost -p 5431 -U postgres
+
+psql -h localhost -p 5432 -U postgres
+
+psql -h localhost -p 5433 -U postgres
