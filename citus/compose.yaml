@@ -1,0 +1,36 @@
+services:
+  coordinator:
+    image: citusdata/citus:13.0
+    container_name: coordinator
+    hostname: coordinator
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - citus-net
+    command: ["citus-coordinator"]
+
+  worker1:
+    image: citusdata/citus:13.0
+    container_name: worker1
+    hostname: worker1
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - citus-net
+    command: ["citus-worker"]
+
+  worker2:
+    image: citusdata/citus:13.0
+    container_name: worker2
+    hostname: worker2
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - citus-net
+    command: ["citus-worker"]
+
+networks:
+  citus-net:
+    driver: bridge
