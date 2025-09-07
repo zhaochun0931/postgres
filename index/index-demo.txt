@@ -1,0 +1,83 @@
+-- ==============================================
+-- PostgreSQL Index Demo
+-- ==============================================
+
+-- 1. Drop old table if exists
+DROP TABLE IF EXISTS users;
+
+-- 2. Create demo table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    email TEXT,
+    created_at TIMESTAMP DEFAULT now()
+);
+
+-- 3. Insert 1 million rows
+INSERT INTO users (name, email, created_at)
+SELECT
+    'User' || g,
+    'user' || g || '@example.com',
+    now() - (random() * interval '365 days')
+FROM generate_series(1, 1000000) g;
+
+-- Force analyze so planner knows stats
+ANALYZE users;
+
+-- 4. Query WITHOUT index
+\echo '==== Query without index ===='
+EXPLAIN ANALYZE
+SELECT * FROM users WHERE email = 'user500000@example.com';
+
+
+
+postgres=# EXPLAIN ANALYZE SELECT * FROM users WHERE email = 'user500000@example.com';
+                                                     QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..15553.43 rows=1 width=44) (actual time=26.336..28.662 rows=1 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on users  (cost=0.00..14553.33 rows=1 width=44) (actual time=19.509..23.124 rows=0 loops=3)
+         Filter: (email = 'user500000@example.com'::text)
+         Rows Removed by Filter: 333333
+ Planning Time: 0.120 ms
+ Execution Time: 28.681 ms
+(8 rows)
+
+postgres=#
+
+
+
+
+
+                                                         
+-- 5. Create index on email
+CREATE INDEX idx_users_email ON users(email);
+
+-- 6. Query WITH index
+\echo '==== Query with index ===='
+EXPLAIN ANALYZE
+SELECT * FROM users WHERE email = 'user500000@example.com';
+
+
+
+
+
+                                                       QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_users_email on users  (cost=0.42..8.44 rows=1 width=44) (actual time=0.060..0.063 rows=1 loops=1)
+   Index Cond: (email = 'user500000@example.com'::text)
+ Planning Time: 0.134 ms
+ Execution Time: 0.094 ms
+(4 rows)
+
+
+
+
+                                                           
+
+
+DROP INDEX idx_users_email;
+
+
+
