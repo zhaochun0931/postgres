@@ -35,3 +35,14 @@ Attaching raw query text ...
 WARNING: This tool collects statistics about your data, including most common values, which requires some data elements to be included in the output file.
 Please review output file to ensure it is within corporate policy to transport the output file.
 $
+
+
+
+
+
+
+
+
+
+
+psql test -f xxx.sql
