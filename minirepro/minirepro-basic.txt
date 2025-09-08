@@ -8,3 +8,30 @@ Its purpose is to capture the minimal set of information (schema + statistics + 
 
 
 
+
+
+
+create table t1 (id int);
+
+insert into t1 select * from generate_series(1,100);
+
+
+
+select * from t1 where id = 30;
+
+
+$ minirepro test -q myquery.sql -f xxx.sql
+Connecting to database: host=data74, port=5432, user=gpadmin, db=test ...
+Extracting metadata from query file myquery.sql ...
+psql test --pset footer --no-psqlrc -Atq -h data74 -p 5432 -U gpadmin -f /tmp/20250908070308/toolkit.sql
+Invoking pg_dump to dump DDL ...
+pg_dump -h data74 -p 5432 -U gpadmin -sxO test --relation-oids 16398 --function-oids 0 -f /tmp/20250908070308/pg_dump_out.sql
+Writing schema DDLs ...
+Writing relation and function DDLs ...
+Writing table statistics ...
+Writing column statistics ...
+Attaching raw query text ...
+--- MiniRepro completed! ---
+WARNING: This tool collects statistics about your data, including most common values, which requires some data elements to be included in the output file.
+Please review output file to ensure it is within corporate policy to transport the output file.
+$
