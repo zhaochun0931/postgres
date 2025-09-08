@@ -1,0 +1,6 @@
+# start the image
+docker run -d --name citus -p 5432:5432 -e POSTGRES_PASSWORD=mypass \
+citusdata/citus:13.0
+
+# verify it's running, and that Citus is installed:
+psql -U postgres -h localhost -d postgres -c "SELECT * FROM citus_version();"
