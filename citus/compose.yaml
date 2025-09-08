@@ -9,7 +9,7 @@ services:
       - "5432:5432"
     networks:
       - citus-net
-    command: ["citus-coordinator"]
+    command: ["postgres"]
 
   worker1:
     image: citusdata/citus:13.0
@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: password
     networks:
       - citus-net
-    command: ["citus-worker"]
+    command: ["postgres"]
 
   worker2:
     image: citusdata/citus:13.0
@@ -29,7 +29,7 @@ services:
       POSTGRES_PASSWORD: password
     networks:
       - citus-net
-    command: ["citus-worker"]
+    command: ["postgres"]
 
 networks:
   citus-net:
