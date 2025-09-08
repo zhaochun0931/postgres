@@ -1,0 +1,10 @@
+In PostgreSQL, minirepro is a tool for reproducing query performance issues with minimal data.
+
+
+
+
+Its purpose is to capture the minimal set of information (schema + statistics + plan-related state) needed to reproduce a query execution plan on another machine, without needing the full dataset.
+
+
+
+
