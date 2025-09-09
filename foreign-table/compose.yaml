@@ -1,0 +1,66 @@
+# Use postgres/example user/password credentials
+services:
+
+  pg1:
+    image: postgres
+    container_name: pg1
+    hostname: pg1
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - postgres-network
+    ports:
+      - "5431:5432"   # host 5431 -> container 5432
+
+  pg2:
+    image: postgres
+    container_name: pg2
+    hostname: pg2
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - postgres-network
+    ports:
+      - "5432:5432"   # host 5432 -> container 5432
+  
+  pg3:
+    image: postgres
+    container_name: pg3
+    hostname: pg3
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - postgres-network
+    ports:
+      - "5433:5432"   # host 5433 -> container 5432
+
+networks:
+  postgres-network:
+    driver: bridge
