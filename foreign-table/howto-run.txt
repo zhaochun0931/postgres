@@ -1,0 +1,21 @@
+docker exec -it pg2 bash
+
+su - postgres
+
+createdb test
+
+psl test
+
+
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    email TEXT
+);
+
+INSERT INTO customers (name, email) VALUES
+('Alice', 'alice@example.com'),
+('Bob', 'bob@example.com'),
+('Charlie', 'charlie@example.com');
+
+
