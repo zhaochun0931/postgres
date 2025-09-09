@@ -19,3 +19,44 @@ INSERT INTO customers (name, email) VALUES
 ('Charlie', 'charlie@example.com');
 
 
+
+
+
+
+
+
+docker exec -it pg1 bash
+
+su - postgres
+
+createdb test
+
+psl test
+
+
+
+
+-- Enable the FDW extension
+CREATE EXTENSION postgres_fdw;
+
+-- Define the remote server
+CREATE SERVER remotepg FOREIGN DATA WRAPPER postgres_fdw
+OPTIONS (host 'pg2', dbname 'test', port '5432');
+
+-- Map local user to remote user
+CREATE USER MAPPING FOR postgres SERVER remotepg
+OPTIONS (user 'postgres', password 'pass');
+
+-- Create a foreign table pointing to remote.customers
+CREATE FOREIGN TABLE remote_customers (
+    id INT,
+    name TEXT,
+    email TEXT
+) SERVER remotepg
+OPTIONS (schema_name 'public', table_name 'customers');
+
+-- Query the remote table!
+SELECT * FROM remote_customers;
+
+
+
