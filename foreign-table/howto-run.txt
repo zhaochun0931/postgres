@@ -1,3 +1,6 @@
+# pg2 is remote postgres
+
+
 docker exec -it pg2 bash
 
 su - postgres
@@ -45,7 +48,7 @@ OPTIONS (host 'pg2', dbname 'test', port '5432');
 
 -- Map local user to remote user
 CREATE USER MAPPING FOR postgres SERVER remotepg
-OPTIONS (user 'postgres', password 'pass');
+OPTIONS (user 'postgres', password 'password');
 
 -- Create a foreign table pointing to remote.customers
 CREATE FOREIGN TABLE remote_customers (
@@ -58,5 +61,50 @@ OPTIONS (schema_name 'public', table_name 'customers');
 -- Query the remote table!
 SELECT * FROM remote_customers;
 
+
+test=# SELECT * FROM remote_customers;
+ id |  name   |        email
+----+---------+---------------------
+  1 | Alice   | alice@example.com
+  2 | Bob     | bob@example.com
+  3 | Charlie | charlie@example.com
+(3 rows)
+
+test=#
+
+
+
+
+
+
+
+
+-- Local table
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_id INT,
+    amount NUMERIC
+);
+
+INSERT INTO orders (customer_id, amount) VALUES
+(1, 100.0),
+(2, 200.0);
+
+-- Join local orders with remote customers
+SELECT o.order_id, c.name, o.amount
+FROM orders o
+JOIN remote_customers c ON o.customer_id = c.id;
+
+
+test=# SELECT o.order_id, c.name, o.amount
+FROM orders o
+JOIN remote_customers c ON o.customer_id = c.id;
+ order_id | name  | amount
+----------+-------+--------
+        1 | Alice |  100.0
+        2 | Bob   |  200.0
+(2 rows)
+
+test=#
 
 
