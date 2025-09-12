@@ -19,33 +19,23 @@ psql -U postgres -h localhost -d postgres -c "SELECT * FROM citus_version();"
 
 
 
+docker exec -it citus_coordinator psql -U postgres
 
 
 
 
 
 
+-- Register workers
+SELECT * from master_add_node('worker1', 5432);
+SELECT * from master_add_node('worker2', 5432);
 
-docker exec -it coordinator psql -U postgres
-
-
-SELECT master_add_node('worker1', 5432);
-SELECT master_add_node('worker2', 5432);
-
-
-
-
-
-
+-- Verify
 SELECT * FROM master_get_active_worker_nodes();
 
 
 
-CREATE DATABASE testdb;
 
-\c testdb
-
-CREATE EXTENSION IF NOT EXISTS citus;
 
 
 
