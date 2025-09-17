@@ -1,0 +1,38 @@
+The PostgreSQL optimizer (often called the query planner/optimizer) is the brain that decides how your SQL query will actually be executed.
+
+
+
+🔹 Purpose of the PostgreSQL Optimizer
+
+Translate SQL into a plan
+
+  SQL is declarative: you describe what you want, not how to get it.
+  
+  The optimizer figures out the execution plan (the "how").
+
+
+Choose the most efficient execution strategy
+
+PostgreSQL may consider different ways to run your query:
+
+Sequential scan vs. Index scan vs. Bitmap scan
+
+Nested loop join vs. Hash join vs. Merge join
+
+Aggregation strategies (e.g., hash aggregate vs. sort + group)
+
+The optimizer estimates the cost of each strategy and picks the cheapest one.
+
+
+Balance I/O, CPU, and memory usage
+
+  Cost models weigh factors like disk reads, CPU cycles, available memory, parallel workers.
+  
+  Example: If a table is small, a sequential scan may be faster than using an index.
+
+
+Support scalability
+
+  For large queries (data warehouses, analytics), the optimizer ensures queries finish in seconds instead of hours.
+  
+  Parallel query execution is also decided here.
