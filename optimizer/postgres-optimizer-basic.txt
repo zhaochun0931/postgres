@@ -36,3 +36,123 @@ Support scalability
   For large queries (data warehouses, analytics), the optimizer ensures queries finish in seconds instead of hours.
   
   Parallel query execution is also decided here.
+
+
+
+
+
+
+
+
+
+
+
+test=# EXPLAIN ANALYZE
+SELECT *
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+WHERE c.country = 'US';
+                                                      QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------------
+ Hash Join  (cost=29.50..932.31 rows=40000 width=33) (actual time=0.361..11.083 rows=40094 loops=1)
+   Hash Cond: (o.customer_id = c.id)
+   ->  Seq Scan on orders o  (cost=0.00..771.00 rows=50000 width=14) (actual time=0.025..3.185 rows=50000 loops=1)
+   ->  Hash  (cost=19.50..19.50 rows=800 width=19) (actual time=0.320..0.320 rows=800 loops=1)
+         Buckets: 1024  Batches: 1  Memory Usage: 49kB
+         ->  Seq Scan on customers c  (cost=0.00..19.50 rows=800 width=19) (actual time=0.017..0.218 rows=800 loops=1)
+               Filter: (country = 'US'::text)
+               Rows Removed by Filter: 200
+ Planning Time: 0.594 ms
+ Execution Time: 12.426 ms
+(10 rows)
+
+test=#
+
+
+
+
+
+
+1️⃣ Top level
+Hash Join  (cost=29.50..932.31 rows=40000 width=33) (actual time=0.361..11.083 rows=40094 loops=1)
+Hash Cond: (o.customer_id = c.id)
+
+
+Hash Join → PostgreSQL decided to join orders and customers using a hash join (build a hash table of one side and probe it with the other).
+
+Hash Cond → the join condition is o.customer_id = c.id.
+
+cost=29.50..932.31 → optimizer’s estimated cost range (start..total).
+
+rows=40000 → optimizer estimated ~40,000 rows would result.
+
+width=33 → estimated row size in bytes.
+
+actual time=0.361..11.083 → the query actually took ~0.36ms to start producing rows, finished in 11.08ms.
+
+rows=40094 → actually returned 40,094 rows.
+
+loops=1 → plan executed once.
+
+
+
+
+2️⃣ Child nodes
+a) Orders table scan
+->  Seq Scan on orders o  (cost=0.00..771.00 rows=50000 width=14) (actual time=0.025..3.185 rows=50000 loops=1)
+
+
+PostgreSQL scanned the orders table sequentially.
+
+rows=50000 → estimated 50,000 rows; actual 50,000 rows.
+
+width=14 → each row is ~14 bytes (customer_id + amount).
+
+actual time=0.025..3.185ms → reading all rows took ~3.2ms.
+
+b) Customers table hash build
+->  Hash  (cost=19.50..19.50 rows=800 width=19) (actual time=0.320..0.320 rows=800 loops=1)
+      Buckets: 1024  Batches: 1  Memory Usage: 49kB
+      ->  Seq Scan on customers c  (cost=0.00..19.50 rows=800 width=19) (actual time=0.017..0.218 rows=800 loops=1)
+            Filter: (country = 'US'::text)
+            Rows Removed by Filter: 200
+
+
+PostgreSQL scanned customers sequentially and filtered by country = 'US'.
+
+Rows removed by filter: 200 → out of 1000 customers, 200 were not 'US'.
+
+Rows returned: 800 → 800 customers from US.
+
+Hash → PostgreSQL built a hash table of these 800 customers for the join.
+
+Buckets: 1024, Memory Usage: 49kB → the hash table was stored in memory (~49 KB).
+
+
+
+
+3️⃣ Planning & Execution time
+Planning Time: 0.594 ms
+Execution Time: 12.426 ms
+
+
+Planning Time → how long the optimizer took to pick the plan (~0.6 ms).
+
+Execution Time → total time to read tables, build hash, perform the join, and return results (~12.4 ms).
+
+
+
+
+✅ Summary
+
+PostgreSQL did a hash join:
+
+Built a hash table from the customers table (filtered to 'US').
+
+Scanned the orders table and matched each row against the hash table.
+
+Sequential scans were used on both tables (no index scan needed).
+
+The query returned 40,094 rows, very close to the optimizer estimate of 40,000.
+
+Total query execution was very fast (~12 ms) because the tables are small and the join method is efficient.
