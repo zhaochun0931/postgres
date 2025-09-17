@@ -1,0 +1,33 @@
+-- Create customers table
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    country TEXT
+);
+
+-- Create orders table
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    customer_id INT REFERENCES customers(id),
+    amount NUMERIC
+);
+
+-- Insert sample data
+-- 1000 customers, mostly from US
+INSERT INTO customers (name, country)
+SELECT 'Customer ' || i,
+       CASE WHEN i % 5 = 0 THEN 'CA' ELSE 'US' END
+FROM generate_series(1, 1000) AS s(i);
+
+-- Insert 50,000 orders
+INSERT INTO orders (customer_id, amount)
+SELECT 
+    (random() * 999 + 1)::int, 
+    round((random() * 1000)::numeric, 2)
+FROM generate_series(1, 50000) AS s(i);
+
+
+
+
+-- Create index on orders.customer_id
+CREATE INDEX idx_orders_customer ON orders(customer_id);
