@@ -48,6 +48,30 @@ openssl x509 -req -in server.csr -CA root.crt -CAkey root.key -CAcreateserial -o
 
 
 
+👩‍💻 Step 3 — Create the Client Certificate
+3.1 Generate a client key and CSR
+openssl genrsa -out client.key 2048
+openssl req -new -key client.key -out client.csr -subj "/CN=ssluser"
+
+
+The CN (ssluser) must match the Postgres role name you’ll use.
+
+3.2 Sign the client cert with the CA
+openssl x509 -req -in client.csr -CA root.crt -CAkey root.key -CAcreateserial -out client.crt -days 365 -sha256
+
+
+
+
+chmod 600 server.key client.key
+
+
+
+
+
+
+
+
+
 docker exec -it pg-server psql -U admin -d testdb
 
 
