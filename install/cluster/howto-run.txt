@@ -1,9 +1,23 @@
 docker compose up
 
 
-docker exec -it pg-client bash
 
 psql -h postgres -U admin -d testdb
 
 
 psql -h pg-server -U admin -d testdb
+
+SELECT usename, passwd FROM pg_shadow;
+
+
+
+
+
+
+
+
+
+
+docker exec -it pg-client bash
+
+
