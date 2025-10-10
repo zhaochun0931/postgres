@@ -1,9 +1,11 @@
 docker compose up
 
 
+docker exec -it pg-server bash
 
 psql -h postgres -U admin -d testdb
 
+or
 
 psql -h pg-server -U admin -d testdb
 
