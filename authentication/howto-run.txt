@@ -1,3 +1,53 @@
+mkdir -p server/certs
+cd server/certs
+
+
+
+🪪 Step 1 — Create a Root Certificate Authority (CA)
+
+This CA will sign both the server and client certs.
+
+# 1. Generate a private key for the CA
+openssl genrsa -out root.key 4096
+
+# 2. Create a self-signed CA certificate (valid for 10 years)
+openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -subj "/CN=PostgresTestCA"
+
+
+
+
+
+
+🖥️ Step 2 — Create the Server Certificate
+2.1 Generate a private key and a certificate signing request (CSR)
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -out server.csr -subj "/CN=pg-server"
+
+
+The CN (pg-serverl) must match the hostname in your docker-compose.yml.
+
+
+2.2 Create a config file to include Subject Alternative Names (SANs)
+
+Create server-ext.cnf:
+
+cat > server-ext.cnf <<EOF
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = pg-server
+DNS.2 = postgres
+EOF
+
+2.3 Sign the server certificate with the CA
+openssl x509 -req -in server.csr -CA root.crt -CAkey root.key -CAcreateserial -out server.crt -days 365 -sha256 -extfile server-ext.cnf
+
+
+
+
+
+
+
+
 docker exec -it pg-server psql -U admin -d testdb
 
 
@@ -5,3 +55,12 @@ docker exec -it pg-server psql -U admin -d testdb
 CREATE ROLE ssluser LOGIN;
 CREATE ROLE md5user LOGIN PASSWORD 'md5pass';
 CREATE ROLE nossluser LOGIN;
+
+
+
+
+
+
+
+docker exec -it pg-client bash
+
