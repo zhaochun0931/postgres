@@ -12,3 +12,16 @@ psql -h localhost -p 5431 -U postgres
 psql -h localhost -p 5432 -U postgres
 
 psql -h localhost -p 5433 -U postgres
+
+
+
+
+
+
+
+
+docker exec -it pg-client bash
+
+psql -h postgres -U admin -d testdb
+
+psql -h pg-server -U admin -d testdb
