@@ -86,5 +86,31 @@ CREATE ROLE nossluser LOGIN;
 
 
 
+
+
+
+
+psql -h postgres -U admin -d testdb
+
+
+SELECT usename, passwd FROM pg_shadow;
+
+
+
+testdb=# SELECT usename, passwd FROM pg_shadow;
+-[ RECORD 1 ]----------------------------------------------------------------------------------------------------------------------------------
+usename | admin
+passwd  | SCRAM-SHA-256$4096:BWCk0c3BVRMO+oNJrOH5FQ==$QJxBkNgFsSaWtILkNZTbD/Mi8GyiukuJH/OOX7/ksRg=:5UdYsZ/7Jtlbr3mTGV/s4Gg0z8h6qZq9rzKlToXAZro=
+
+testdb=#
+
+
+
+
+
+
+
+
+
 docker exec -it pg-client bash
 
