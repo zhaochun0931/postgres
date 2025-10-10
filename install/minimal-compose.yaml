@@ -1,0 +1,34 @@
+services:
+  pg-server:
+    image: postgres:15
+    container_name: pg-server
+    hostname: pg-server
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpass
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./server/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./server/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./pgdata:/var/lib/postgresql/data
+    command: >
+      postgres -c config_file=/etc/postgresql/postgresql.conf
+    restart: unless-stopped
+    networks:
+      - pgnet
+
+  pg-client:
+    image: postgres:15
+    container_name: pg-client
+    hostname: pg-client
+    depends_on:
+      - pg-server
+    command: sleep infinity
+    networks:
+      - pgnet
+
+networks:
+  pgnet:
+    driver: bridge
