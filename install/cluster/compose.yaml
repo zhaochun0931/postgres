@@ -9,8 +9,12 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgresql.conf:/var/lib/postgresql/data/postgresql.conf
-      - ./pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+      # Mount host folder for persistent PostgreSQL data
+      - ./pgdata:/var/lib/postgresql/data
+      # Mount custom config files from host
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
     networks:
       - pgnet
 
