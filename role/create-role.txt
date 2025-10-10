@@ -1,0 +1,7 @@
+CREATE ROLE md5user WITH LOGIN PASSWORD 'md5password';
+
+
+
+SELECT usename, passwd FROM pg_shadow;
+
+
