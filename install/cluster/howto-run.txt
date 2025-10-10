@@ -11,6 +11,37 @@ SELECT usename, passwd FROM pg_shadow;
 
 
 
+testdb=# \x
+Expanded display is on.
+testdb=# SELECT usename, passwd FROM pg_shadow;
+-[ RECORD 1 ]----------------------------------------------------------------------------------------------------------------------------------
+usename | admin
+passwd  | SCRAM-SHA-256$4096:4rnX4K3xvtMgK5B7Qfi3aA==$7R7ImOJfUOOeiLYcpCDIphJ3npsjeeXFTv8rNmOwXPw=:4cerM1RXNiGhqwP4K6NoyxZc4/twd65e27jfeAowsvA=
+
+testdb=#
+
+
+
+CREATE ROLE md5user WITH LOGIN PASSWORD 'md5password';
+
+
+
+
+
+
+PGPASSWORD=md5password psql -h postgres -U md5user -d testdb
+
+
+# PGPASSWORD=md5password psql -h postgres -U md5user -d testdb
+psql (15.14 (Debian 15.14-1.pgdg13+1))
+Type "help" for help.
+
+testdb=>
+
+
+
+
+
 
 
 
