@@ -111,6 +111,20 @@ testdb=#
 
 
 
+1️⃣ Why it’s stored as SCRAM even for md5user
+
+  PostgreSQL ≥10 automatically stores passwords in SCRAM-SHA-256 format when the user is created if the database cluster defaults to SCRAM.
+  
+  The pg_hba.conf setting (md5 vs scram-sha-256) does not retroactively change the stored password.
+  
+  pg_hba.conf only controls which authentication method is required for incoming connections, not how passwords are stored.
+
+
+
+
+
+
+
 
 docker exec -it pg-client bash
 
