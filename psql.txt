@@ -1,1 +1,32 @@
+By default, psql without parameters does:
+
+psql
+# same as
+psql -U $USER -d $USER
+
+
+So if your Linux user is root, it tries to connect as Postgres role root.
+
+In your setup, the only user you created is admin (via POSTGRES_USER=admin), so root or postgres doesn’t exist in the database.
+
+That’s why you see:
+
+pg-server  | 2025-10-10 13:51:30.149 GMT [223] FATAL:  role "root" does not exist
+pg-server  | 2025-10-10 13:52:04.064 GMT [233] FATAL:  role "postgres" does not exist
+pg-server  | 2025-10-10 13:52:26.580 GMT [236] FATAL:  role "postgres" does not exist
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \conninfo
