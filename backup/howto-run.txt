@@ -54,3 +54,23 @@ pg_dump -Fc -U admin -d testdb -f backup_file.dump
 
 
 
+
+
+# restore the database
+
+How to recover
+You can restore a logical backup using either psql (for plain SQL files) or pg_restore (for custom, tar, or directory formats). 
+Restore a custom backup file with pg_restore
+Create an empty database on your PostgreSQL server where the data will be restored.
+sh
+createdb -U postgres new_dbname
+Use code with caution.
+
+Run pg_restore to import the data into the new database.
+sh
+pg_restore -Fc -U username -d new_dbname backup_file.dump
+
+
+
+
+
