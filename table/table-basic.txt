@@ -1,0 +1,6 @@
+In PostgreSQL, a table is stored physically on disk as a heap file within a directory structure organized by databases and tablespaces. 
+
+The data is not stored as a single, contiguous file, but is divided into fixed-size pages, and tables larger than 1 GB are split into multiple files called segments.
+
+
+
