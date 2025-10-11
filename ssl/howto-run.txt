@@ -1,5 +1,9 @@
-mkdir -p server/certs
-cd server/certs
+mkdir -p ./pgssl/{server,client}
+
+
+
+
+cd pgssl
 
 
 
@@ -7,11 +11,10 @@ cd server/certs
 
 This CA will sign both the server and client certs.
 
-# 1. Generate a private key for the CA
-openssl genrsa -out root.key 4096
+openssl req -new -x509 -days 365 -nodes \
+  -subj "/CN=pg-ca" \
+  -keyout ca.key -out ca.crt
 
-# 2. Create a self-signed CA certificate (valid for 10 years)
-openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -subj "/CN=PostgresTestCA"
 
 
 
@@ -19,27 +22,19 @@ openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -su
 
 
 🖥️ Step 2 — Create the Server Certificate
-2.1 Generate a private key and a certificate signing request (CSR)
-openssl genrsa -out server.key 2048
-openssl req -new -key server.key -out server.csr -subj "/CN=pg-server"
+
+openssl req -new -nodes \
+  -subj "/CN=pg-server" \
+  -keyout server/server.key -out server/server.csr
+
+openssl x509 -req -in server/server.csr \
+  -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -out server/server.crt -days 365
+
+chmod 600 server/server.key
 
 
-The CN (pg-serverl) must match the hostname in your docker-compose.yml.
 
-
-2.2 Create a config file to include Subject Alternative Names (SANs)
-
-Create server-ext.cnf:
-
-cat > server-ext.cnf <<EOF
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = pg-server
-DNS.2 = postgres
-EOF
-
-2.3 Sign the server certificate with the CA
-openssl x509 -req -in server.csr -CA root.crt -CAkey root.key -CAcreateserial -out server.crt -days 365 -sha256 -extfile server-ext.cnf
 
 
 
@@ -49,20 +44,41 @@ openssl x509 -req -in server.csr -CA root.crt -CAkey root.key -CAcreateserial -o
 
 
 👩‍💻 Step 3 — Create the Client Certificate
-3.1 Generate a client key and CSR
-openssl genrsa -out client.key 2048
-openssl req -new -key client.key -out client.csr -subj "/CN=ssluser"
+
+openssl req -new -nodes \
+  -subj "/CN=pg-client" \
+  -keyout client/client.key -out client/client.csr
+
+openssl x509 -req -in client/client.csr \
+  -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -out client/client.crt -days 365
+
+chmod 600 client/client.key
 
 
-The CN (ssluser) must match the Postgres role name you’ll use.
-
-3.2 Sign the client cert with the CA
-openssl x509 -req -in client.csr -CA root.crt -CAkey root.key -CAcreateserial -out client.crt -days 365 -sha256
 
 
 
 
-chmod 600 server.key client.key
+├── ca.crt
+├── ca.key
+├── ca.srl
+├── client
+│   ├── client.crt
+│   ├── client.csr
+│   └── client.key
+└── server
+    ├── server.crt
+    ├── server.csr
+    └── server.key
+
+
+
+
+
+
+
+
 
 
 
