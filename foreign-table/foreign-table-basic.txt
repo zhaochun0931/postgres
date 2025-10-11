@@ -2,11 +2,21 @@ In PostgreSQL (pg), a foreign table is a database object that represents a table
 
 Foreign tables rely on a component called a Foreign Data Wrapper (FDW), which is a specialized library that handles the connection and communication with the external data source. 
 
+
+
+
+
 Key concepts
 To create and use a foreign table, you need to set up three main components:
-  Foreign Data Wrapper (FDW): This is the extension that provides the functionality to connect to a specific type of external data source. For example, the built-in postgres_fdw is used to connect to another PostgreSQL server.
-  Foreign Server: This object defines the connection details for the external data source, such as its host address, port, and database name. It is created using the CREATE SERVER command.
-  User Mapping: This defines the authentication credentials (username and password) that a local PostgreSQL user will use to connect to the remote server. It is created with the CREATE USER MAPPING command.
+
+Foreign Data Wrapper (FDW): 
+This is the extension that provides the functionality to connect to a specific type of external data source. For example, the built-in postgres_fdw is used to connect to another PostgreSQL server.
+
+Foreign Server: 
+This object defines the connection details for the external data source, such as its host address, port, and database name. It is created using the CREATE SERVER command.
+  
+User Mapping: 
+This defines the authentication credentials (username and password) that a local PostgreSQL user will use to connect to the remote server. It is created with the CREATE USER MAPPING command.
 
 
 
