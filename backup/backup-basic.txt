@@ -1,0 +1,1 @@
+To back up and recover a PostgreSQL database, you can use built-in tools like pg_dump and pg_restore for logical backups, or pg_basebackup for physical backups.
