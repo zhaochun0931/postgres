@@ -60,17 +60,18 @@ chmod 600 client/client.key
 
 
 
-├── ca.crt
-├── ca.key
-├── ca.srl
-├── client
-│   ├── client.crt
-│   ├── client.csr
-│   └── client.key
-└── server
-    ├── server.crt
-    ├── server.csr
-    └── server.key
+pgssl
+    ├── ca.crt
+    ├── ca.key
+    ├── ca.srl
+    ├── client
+    │   ├── client.crt
+    │   ├── client.csr
+    │   └── client.key
+    └── server
+        ├── server.crt
+        ├── server.csr
+        └── server.key
 
 
 
