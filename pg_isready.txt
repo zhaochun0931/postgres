@@ -1,1 +1,14 @@
 pg_isready -h localhost
+
+
+pg_isready -h postgres -U admin
+
+
+# pg_isready -h postgres -U admin
+postgres:5432 - accepting connections
+#
+
+
+
+
+pg_isready -h postgres -U admin > /dev/null 2>&1
