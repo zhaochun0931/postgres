@@ -1,0 +1,8 @@
+create table t1 (id int);
+
+insert into t1 select * from generate_series(1,100);
+
+select count(*) from t1;
+
+select * from t1;
+
