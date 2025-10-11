@@ -55,6 +55,22 @@ pg_dump -Fc -U admin -d testdb -f backup_file.dump
 
 
 
+or
+
+
+pg_dumpall -U admin > full_cluster_backup.sql
+
+
+
+
+
+
+
+
+
+
+
+
 
 # restore the database
 
@@ -70,5 +86,6 @@ pg_restore -Fc -U admin -d new_dbname backup_file.dump
 psql -h localhost -U admin -d new_dbname -c "select count(*) from test;"
 psql -h localhost -U admin -d new_dbname -c "select count(*) from test"
 
+psql -h localhost -U admin -d testdb
 
 
