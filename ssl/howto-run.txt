@@ -84,7 +84,7 @@ pgssl
 
 
 
-
+psql -U admin -d testdb
 
 
 
