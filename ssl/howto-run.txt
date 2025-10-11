@@ -91,11 +91,13 @@ psql -U admin -d testdb
 
 docker exec -it pg-server psql -U admin -d testdb
 
+CREATE ROLE "pg-client" LOGIN;
 
 
-CREATE ROLE ssluser LOGIN;
-CREATE ROLE md5user LOGIN PASSWORD 'md5pass';
-CREATE ROLE nossluser LOGIN;
+
+
+
+
 
 
 
