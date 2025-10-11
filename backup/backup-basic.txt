@@ -26,3 +26,24 @@ Backup all databases to a single SQL script
 For backing up an entire database cluster (including roles and tablespaces), use pg_dumpall. 
 
 pg_dumpall -U postgres > full_cluster_backup.sql
+
+
+
+
+
+
+
+
+How to recover
+
+You can restore a logical backup using either psql (for plain SQL files) or pg_restore (for custom, tar, or directory formats). 
+Restore a custom backup file with pg_restore
+Create an empty database on your PostgreSQL server where the data will be restored.
+
+createdb -U postgres new_dbname
+
+
+Run pg_restore to import the data into the new database.
+pg_restore -Fc -U username -d new_dbname backup_file.dump
+
+
