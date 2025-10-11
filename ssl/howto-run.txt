@@ -84,12 +84,60 @@ pgssl
 
 
 
-psql -U admin -d testdb
+
+
+
+
+
+
+
+
+PostgreSQL does two main checks:
+
+✅ Server certificate is trusted (signed by the CA in root.crt)
+
+✅ If pg_hba.conf requires cert clientcert=1, it validates the client certificate:
+
+It must be signed by the same CA.
+
+The certificate’s Common Name (CN) must match a PostgreSQL role name.
+
+So if your client cert has:
+
+Subject: CN=pg-client
+
+
+then you must create a role:
+
+CREATE ROLE "pg-client" LOGIN;
+
+
+After that, connection succeeds without a password, because the cert itself proves the identity.
+
+
+
+
+
+
+
 
 
 
 
 docker exec -it pg-server psql -U admin -d testdb
+
+
+
+# The PostgreSQL role name must match the CN (Common Name) in the client certificate
+
+
+openssl x509 -in client.crt -noout -subject
+
+
+$ openssl x509 -in client.crt -noout -subject
+subject=CN=pg-client
+$
+
 
 CREATE ROLE "pg-client" LOGIN;
 
@@ -146,4 +194,21 @@ testdb=#
 
 
 docker exec -it pg-client bash
+
+psql "host=pg-server dbname=testdb user=pg-client sslmode=verify-full sslrootcert=/root/.postgresql/root.crt"
+
+
+
+root@pg-client:~# psql "host=pg-server dbname=testdb user=pg-client sslmode=verify-full sslrootcert=/root/.postgresql/root.crt"
+psql (15.14 (Debian 15.14-1.pgdg13+1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+Type "help" for help.
+
+testdb=>
+testdb=> \conninfo
+You are connected to database "testdb" as user "pg-client" on host "pg-server" (address "172.31.0.2") at port "5432".
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+testdb=>
+testdb=>
+testdb=>
 
