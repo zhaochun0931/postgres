@@ -47,3 +47,18 @@ Run pg_restore to import the data into the new database.
 pg_restore -Fc -U username -d new_dbname backup_file.dump
 
 
+
+
+
+
+Restore a plain SQL file with psql
+Create an empty database.
+
+createdb -U postgres new_dbname
+
+
+Execute the SQL script against the new database.
+
+psql -U username -d new_dbname -f full_cluster_backup.sql
+
+
