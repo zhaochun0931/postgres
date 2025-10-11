@@ -62,3 +62,61 @@ Execute the SQL script against the new database.
 psql -U username -d new_dbname -f full_cluster_backup.sql
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2. Physical backup: pg_basebackup
+Physical backups involve copying the database's data files at the file system level. When combined with Write-Ahead Log (WAL) archiving, this is the most robust method for disaster recovery, especially for large databases, and enables Point-in-Time Recovery (PITR). 
+
+How to back up
+The native tool for physical backups is pg_basebackup, which creates a consistent copy of the database cluster's files. 
+Create a physical backup 
+
+
+pg_basebackup -D /path/to/backup/dir -c fast -X fetch -P
+
+
+-D /path/to/backup/dir: Specifies the directory where the backup will be stored.
+-c fast: Creates the checkpoint as quickly as possible.
+-X fetch: Includes the necessary WAL files in the backup.
+-P: Reports progress during the backup. 
+
+
+
+
+
+How to recover
+Physical recovery is more complex, as it involves manually copying files and replaying WAL data.
+Stop the PostgreSQL server.
+Clear the old data directory to ensure a clean slate.
+
+rm -rf /var/lib/postgresql/16/main/*
+
+
+Copy the backup files into the main data directory.
+
+cp -R /path/to/backup/dir/* /var/lib/postgresql/16/main/
+
+
+Create a standby.signal file in the data directory to indicate that it is a standby server. You will also need to configure a recovery.conf file or similar settings to specify the WAL recovery options.
+
+touch /var/lib/postgresql/16/main/standby.signal
+
+
+Start the PostgreSQL server, which will begin recovering the data from the WAL files. 
