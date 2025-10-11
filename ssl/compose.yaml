@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: pg-server
+    hostname: pg-server
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./ca.crt:/etc/ssl/ca.crt
+      - ./server/server.crt:/etc/ssl/server.crt
+      - ./server/server.key:/etc/ssl/server.key
+    command: >
+      postgres -c config_file=/etc/postgresql/postgresql.conf
+               -c hba_file=/etc/postgresql/pg_hba.conf
+    networks:
+      - pgnet
+
+  client:
+    image: postgres:15
+    container_name: pg-client
+    hostname: pg-client
+    depends_on:
+      - postgres
+    volumes:
+      - ./ca.crt:/root/.postgresql/root.crt
+      - ./client/client.crt:/root/.postgresql/postgresql.crt
+      - ./client/client.key:/root/.postgresql/postgresql.key
+    command: sleep infinity
+    networks:
+      - pgnet
+
+networks:
+  pgnet:
+    driver: bridge
