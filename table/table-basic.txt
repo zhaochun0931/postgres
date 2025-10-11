@@ -4,3 +4,52 @@ The data is not stored as a single, contiguous file, but is divided into fixed-s
 
 
 
+
+
+
+To check the location of the table file on disk
+
+SELECT pg_relation_filepath('your_table_name');
+
+
+testdb=# SELECT pg_relation_filepath('t1');
+ pg_relation_filepath
+----------------------
+ base/16384/16389
+(1 row)
+
+testdb=#
+
+
+
+
+
+
+To check the storage size of a table
+
+SELECT pg_size_pretty(pg_total_relation_size('your_table_name'));
+
+
+
+SELECT pg_size_pretty(pg_total_relation_size('t1'));
+
+testdb=# SELECT pg_size_pretty(pg_total_relation_size('t1'));
+ pg_size_pretty
+----------------
+ 2075 MB
+(1 row)
+
+testdb=#
+
+
+
+
+
+
+
+
+
+
+
+
+
