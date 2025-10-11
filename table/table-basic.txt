@@ -22,6 +22,17 @@ testdb=#
 
 
 
+# ls -alSh $PGDATA/base/16384/16389*
+-rw------- 1 postgres postgres 1.0G Oct 11 08:27 /var/lib/postgresql/data/base/16384/16389
+-rw------- 1 postgres postgres 1.0G Oct 11 08:28 /var/lib/postgresql/data/base/16384/16389.1
+-rw------- 1 postgres postgres  27M Oct 11 08:25 /var/lib/postgresql/data/base/16384/16389.2
+-rw------- 1 postgres postgres 544K Oct 11 08:25 /var/lib/postgresql/data/base/16384/16389_fsm
+-rw------- 1 postgres postgres  72K Oct 11 08:28 /var/lib/postgresql/data/base/16384/16389_vm
+#
+
+
+
+
 
 
 
@@ -42,7 +53,7 @@ testdb=# SELECT pg_size_pretty(pg_total_relation_size('t1'));
 testdb=#
 
 
-
+pg_total_relation_size(): Includes the size of the table, its indexes, and the TOAST table.
 
 
 
