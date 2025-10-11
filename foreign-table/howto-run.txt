@@ -7,7 +7,7 @@ su - postgres
 
 createdb test
 
-psl test
+psql test
 
 
 CREATE TABLE customers (
@@ -16,10 +16,19 @@ CREATE TABLE customers (
     email TEXT
 );
 
-INSERT INTO customers (name, email) VALUES
+INSERT INTO customers (name, email) 
+VALUES
 ('Alice', 'alice@example.com'),
 ('Bob', 'bob@example.com'),
 ('Charlie', 'charlie@example.com');
+
+
+
+select * from customers;
+
+
+
+
 
 
 
@@ -34,29 +43,39 @@ su - postgres
 
 createdb test
 
-psl test
+psql test
 
 
 
 
--- Enable the FDW extension
+
+
+This example uses the built-in postgres_fdw to access a table on a separate PostgreSQL server. 
+
+-- 1. Enable the postgres_fdw extension
 CREATE EXTENSION postgres_fdw;
 
--- Define the remote server
-CREATE SERVER remotepg FOREIGN DATA WRAPPER postgres_fdw
-OPTIONS (host 'pg2', dbname 'test', port '5432');
+-- 2. Create a foreign server definition
+CREATE SERVER foreign_pg_server FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host 'pg2', dbname 'test', port '5432');
 
--- Map local user to remote user
-CREATE USER MAPPING FOR postgres SERVER remotepg
-OPTIONS (user 'postgres', password 'password');
 
+
+-- 3. Create a user mapping for the current user, map local user to remote user
+CREATE USER MAPPING FOR postgres SERVER foreign_pg_server OPTIONS (user 'postgres', password 'password');
+
+-- 4. Create the foreign table
 -- Create a foreign table pointing to remote.customers
 CREATE FOREIGN TABLE remote_customers (
     id INT,
     name TEXT,
     email TEXT
-) SERVER remotepg
+) 
+SERVER foreign_pg_server
 OPTIONS (schema_name 'public', table_name 'customers');
+
+
+
+
 
 -- Query the remote table!
 SELECT * FROM remote_customers;
@@ -71,6 +90,11 @@ test=# SELECT * FROM remote_customers;
 (3 rows)
 
 test=#
+
+
+
+
+
 
 
 
