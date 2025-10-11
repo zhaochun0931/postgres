@@ -89,3 +89,11 @@ psql -h localhost -U admin -d new_dbname -c "select count(*) from test"
 psql -h localhost -U admin -d testdb
 
 
+
+
+
+or
+
+psql -U admin -d testdb -f full_cluster_backup.sql
+
+
