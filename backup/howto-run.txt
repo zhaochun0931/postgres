@@ -12,6 +12,7 @@ psql -h localhost -U admin -d testdb
 
 
 
+# ssh into the pg-client container and input a million of data
 
 
 docker exec -it pg-client bash
