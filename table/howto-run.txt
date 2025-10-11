@@ -1,3 +1,8 @@
+export PGPASSWORD="password"
+
+docker exec -it pg-client psql -h pg-server -U admin -d testdb
+
+
 create table t1 (id int);
 
 insert into t1 select * from generate_series(1,100);
