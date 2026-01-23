@@ -1,3 +1,4 @@
+✅
 docker exec -it pg1 bash
 
 su - postgres
@@ -27,8 +28,48 @@ docker cp schema-testdb.sql pg2:/var/lib/postgresql/schema-testdb.sql
 
 
 
+✅
 docker exec -it pg2 bash
 
 su - postgres
 
+
+psql -U admin -d testdb -f schema-testdb.sql
+
+
+
+✅
+
+# On your source database, define what you want to replicate. Create the Publication (Publisher)
+pg1:
+
+CREATE PUBLICATION my_pub FOR ALL TABLES;
+
+
+
+
+
+
+SELECT * FROM pg_stat_replication;
+
+
+
+
+
+✅
+# On your target database, connect back to the source. Create the Subscription (Subscriber)
+
+On your target database, connect back to the source.
+
+
+pg2:
+
+CREATE SUBSCRIPTION my_sub 
+CONNECTION 'host=source_ip port=5432 user=rep_user password=pass dbname=source_db' 
+PUBLICATION my_pub;
+
+
+SELECT * FROM pg_stat_subscription_stats;
+
+SELECT * FROM pg_stat_subscription;
 
