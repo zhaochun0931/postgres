@@ -1,0 +1,14 @@
+docker exec -it pg1 bash
+
+su - postgres
+
+psql -U admin -d testdb
+
+
+create table t1 (id int);
+
+insert into t1 select * from generate_series(1,100);
+
+
+pg_dump -s -U admin -d testdb -f schema-testdb.sql
+
