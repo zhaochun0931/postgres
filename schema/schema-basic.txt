@@ -14,3 +14,15 @@ Postgres cluster
            ├── view
            ├── function
            └── index
+
+
+
+
+Default schemas
+
+| Schema               | Purpose                         |
+| -------------------- | ------------------------------- |
+| `public`             | Default user schema             |
+| `pg_catalog`         | System tables & functions       |
+| `information_schema` | SQL-standard metadata           |
+| `pg_toast`           | Large object storage (internal) |
