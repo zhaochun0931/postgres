@@ -1,2 +1,28 @@
 pg_dump is a built-in command-line utility for PostgreSQL used to export a database into a script or archive file. 
 It performs logical backups, meaning it extracts the SQL commands and data needed to reconstruct the database from scratch.
+
+
+
+
+
+
+Simple SQL Backup
+pg_dump -U username -d dbname > backup.sql
+
+
+
+
+Compressed Custom Format
+pg_dump -Fc -U username -d dbname -f backup.dump
+
+
+
+
+Dump a Specific Table
+pg_dump -t table_name -d dbname > table_backup.sql
+
+
+
+
+Schema Only (No Data)
+pg_dump -s -d dbname > schema.sql
