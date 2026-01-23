@@ -1,0 +1,45 @@
+services:
+  pg1:
+    image: postgres
+    container_name: pg1
+    hostname: pg1
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    networks:
+      - pgnet
+    volumes:
+      - ./pg1-data:/var/lib/postgresql/data
+
+  pg2:
+    image: postgres
+    container_name: pg2
+    hostname: pg2
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    networks:
+      - pgnet
+    volumes:
+      - ./pg2-data:/var/lib/postgresql/data
+
+  client:
+    image: postgres:15
+    container_name: pg-client
+    depends_on:
+      - postgres
+    networks:
+      - pgnet
+    command: >
+      bash -c "sleep infinity "
+    environment:
+      PGPASSWORD: password
+
+networks:
+  pgnet:
+    driver: bridge
