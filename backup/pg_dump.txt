@@ -4,6 +4,14 @@ It performs logical backups, meaning it extracts the SQL commands and data neede
 
 
 
+| Format    | Flag            | File type |
+| --------- | --------------- | --------- |
+| Plain SQL | `-Fp` (default) | `.sql`    |
+| Custom    | `-Fc`           | `.dump`   |
+| Directory | `-Fd`           | folder    |
+| Tar       | `-Ft`           | `.tar`    |
+
+
 
 
 Simple SQL Backup
