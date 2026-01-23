@@ -32,7 +32,7 @@ services:
     image: postgres:15
     container_name: pg-client
     depends_on:
-      - postgres
+      - pg1
     networks:
       - pgnet
     command: >
