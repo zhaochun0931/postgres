@@ -12,3 +12,23 @@ insert into t1 select * from generate_series(1,100);
 
 pg_dump -s -U admin -d testdb -f schema-testdb.sql
 
+
+docker cp pg1:/var/lib/postgresql/schema-testdb.sql .
+
+
+
+
+
+
+
+
+
+docker cp schema-testdb.sql pg2:/var/lib/postgresql/schema-testdb.sql
+
+
+
+docker exec -it pg2 bash
+
+su - postgres
+
+
