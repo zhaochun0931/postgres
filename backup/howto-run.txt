@@ -16,7 +16,7 @@ docker exec -it pg-client bash
 psql -h postgres -U admin -d testdb
 
 
-CREATE TABLE IF NOT EXISTS test (
+CREATE TABLE IF NOT EXISTS t1 (
           id SERIAL PRIMARY KEY,
           name TEXT,
           created_at TIMESTAMP DEFAULT NOW()
@@ -24,7 +24,15 @@ CREATE TABLE IF NOT EXISTS test (
 
 
 
-INSERT INTO test (name) SELECT 'user_' || generate_series(1, 1000000);
+INSERT INTO t1 (name) SELECT 'user_' || generate_series(1, 100);
+
+
+
+select count(*) from t1;
+
+select * from t1;
+
+
 
 
 
