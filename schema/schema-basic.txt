@@ -26,3 +26,8 @@ Default schemas
 | `pg_catalog`         | System tables & functions       |
 | `information_schema` | SQL-standard metadata           |
 | `pg_toast`           | Large object storage (internal) |
+
+
+
+
+You normally don’t touch system schemas.
