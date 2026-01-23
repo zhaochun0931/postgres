@@ -1,0 +1,16 @@
+In PostgreSQL, a schema is a logical namespace inside a database that organizes objects like tables, views, functions, and types.
+
+Think of it as:
+
+a folder inside a database
+
+
+
+
+Postgres cluster
+ └── database
+      └── schema
+           ├── table
+           ├── view
+           ├── function
+           └── index
