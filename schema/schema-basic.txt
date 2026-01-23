@@ -17,7 +17,7 @@ Postgres cluster
 
 
 
-
+✅
 Default schemas
 
 | Schema               | Purpose                         |
@@ -31,3 +31,32 @@ Default schemas
 
 
 You normally don’t touch system schemas.
+
+
+
+Fully qualified names
+
+schema_name.object_name
+
+
+Example:
+
+sales.orders
+
+
+
+✅
+search_path (super important)
+
+Postgres resolves object names using search_path.
+
+
+
+testdb=# show search_path;
+   search_path
+-----------------
+ "$user", public
+(1 row)
+
+testdb=#
+
