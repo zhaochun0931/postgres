@@ -2,12 +2,6 @@ docker compose up
 
 
 
-
-
-
-
-
-
 # ssh into the pg-client container and input a million of data
 
 
@@ -57,7 +51,9 @@ psql -h localhost -U admin -d testdb
 docker exec -it pg-server bash
 
 su - postgres
+
 cd data
+
 pg_dump -Fc -U admin -d testdb -f backup_file.dump
 
 
@@ -72,7 +68,12 @@ pg_dumpall -U admin > full_cluster_backup.sql
 
 
 
+# copy the dump file from docker container to local host
 
+docker cp pg-server:/var/lib/postgresql/backup_file.dump .
+
+
+docker cp pg-server:/var/lib/postgresql/full_cluster_backup.sql .
 
 
 
@@ -81,6 +82,9 @@ pg_dumpall -U admin > full_cluster_backup.sql
 
 
 # restore the database
+
+
+docker cp backup_file.dump pg-server:/tmp
 
 
 Create an empty database on your PostgreSQL server where the data will be restored.
