@@ -60,3 +60,11 @@ testdb=# show search_path;
 
 testdb=#
 
+
+
+✅
+To back up the schema (structure) of a PostgreSQL database without including any data, the primary tool is pg_dump
+
+pg_dump -s -U username -d database_name -f schema_backup.sql
+
+pg_dump -s -U admin -d testdb -f schema_backup.sql
