@@ -1,6 +1,6 @@
 services:
   pg1:
-    image: postgres
+    image: postgres:16
     container_name: pg1
     hostname: pg1
     environment:
@@ -15,12 +15,13 @@ services:
       - ./pg1-data:/var/lib/postgresql/data
 
   pg2:
-    image: postgres
+    image: postgres:16
     container_name: pg2
     hostname: pg2
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
     ports:
       - "5433:5432"
     networks:
@@ -29,7 +30,7 @@ services:
       - ./pg2-data:/var/lib/postgresql/data
 
   client:
-    image: postgres:15
+    image: postgres:16
     container_name: pg-client
     depends_on:
       - pg1
