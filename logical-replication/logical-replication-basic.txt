@@ -1,1 +1,17 @@
+It allows you to sync data to a new instance while the primary database stays online.
+
+The process involves two main phases: Copying the Schema and Syncing the Data.
+
+
+
+✅ Prerequisites
+
+Before starting, ensure your primary (Publisher) has the following settings in postgresql.conf:
+
+wal_level = logical
+
+max_replication_slots is at least 1.
+
+max_wal_senders is at least 1.
+
 
