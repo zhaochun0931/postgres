@@ -1,0 +1,24 @@
+kubectl exec -it postgres-0 -- psql -U postgres
+
+
+
+
+kubectl exec -it postgres-0 -- psql -U postgres
+
+
+
+
+
+
+$ kubectl get svc
+NAME                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes          ClusterIP   10.96.0.1       <none>        443/TCP          3h21m
+kubia-clusterip     ClusterIP   10.97.127.15    <none>        8080/TCP         3h5m
+postgres-nodeport   NodePort    10.100.67.169   <none>        5432:31551/TCP   2s
+postgres-service    ClusterIP   10.102.92.88    <none>        5432/TCP         9m34s
+$
+
+
+psql -h localhost -p 31551 -U postgres
+
+
