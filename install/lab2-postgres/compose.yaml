@@ -1,0 +1,64 @@
+services:
+  postgres:
+    # Specifies the official PostgreSQL image from Docker Hub
+    image: postgres:latest
+
+    # The name of the container as it will appear in 'docker ps'
+    container_name: postgres
+
+    # Sets the internal hostname for the container within the network
+    hostname: postgres
+
+    # Ensures the container restarts automatically if it crashes or the Docker host reboots
+    restart: always
+
+    # Increases shared memory; Postgres uses this for high-performance operations
+    # shm_size: 128mb
+
+    # Environment variables to configure the database on startup
+    environment:
+      POSTGRES_USER: postgres          # The superuser name
+      POSTGRES_PASSWORD: password    # The superuser password
+      POSTGRES_DB: mydatabase       # The default database created on startup
+
+    # Persistence: This maps a local directory to the container's data directory
+    volumes:
+      # Format: [Host Path]:[Container Path]
+      # './postgres-data' will be created in your current folder
+      - ./postgres-data:/var/lib/postgresql
+
+    # Connects this container to the defined network below
+    networks:
+      - postgres-network
+
+    # Maps the host port to the container port
+    ports:
+      # You can change the first '5432' if you have another Postgres running locally
+      - "5432:5432"
+
+
+
+# --- PostgreSQL CLI Client ---
+  pg-client:
+    image: postgres:latest
+    container_name: postgres-client
+    restart: always
+    # These two lines keep the container running in the background
+    # so you can jump in and out of the terminal
+    tty: true
+    stdin_open: true
+# FIX: This command keeps the container alive without trying to start a second DB server
+    command: sleep infinity
+    environment:
+      # Pre-setting the password so psql doesn't prompt you every time
+      - PGPASSWORD=password
+    networks:
+      - postgres-network
+    depends_on:
+      - postgres
+
+
+networks:
+  # Creates a private virtual network for your services to communicate
+  postgres-network:
+    driver: bridge

@@ -1,0 +1,29 @@
+docker compose up
+  
+
+
+
+
+
+
+
+
+psql -h localhost -p 5432 -U postgres -d mydatabase
+
+
+
+
+
+
+
+
+
+docker exec -it pg-client bash
+
+psql -h postgres -U postgres -d postgres
+
+create table t1 (id int);
+
+insert into t1 select * from generate_series(1,10);
+
+select * from t1;
