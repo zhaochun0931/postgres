@@ -1,0 +1,54 @@
+-- Create the parent table
+CREATE TABLE sensor_data (
+    id SERIAL,
+    sensor_id INT NOT NULL,
+    recorded_at TIMESTAMP NOT NULL,
+    reading FLOAT8
+) PARTITION BY RANGE (recorded_at);
+
+-- Create two partitions
+CREATE TABLE sensor_data_2025 PARTITION OF sensor_data
+    FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+
+CREATE TABLE sensor_data_2026 PARTITION OF sensor_data
+    FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+
+
+
+-- Insert 500k rows for 2025
+INSERT INTO sensor_data (sensor_id, recorded_at, reading)
+SELECT 
+    (random() * 100)::int, 
+    '2025-01-01 00:00:00'::timestamp + (random() * (interval '364 days')),
+    random() * 100
+FROM generate_series(1, 500000);
+
+-- Insert 500k rows for 2026
+INSERT INTO sensor_data (sensor_id, recorded_at, reading)
+SELECT 
+    (random() * 100)::int, 
+    '2026-01-01 00:00:00'::timestamp + (random() * (interval '364 days')),
+    random() * 100
+FROM generate_series(1, 500000);
+
+
+
+
+-- Check counts in the specific child tables
+SELECT '2025 Partition' as name, count(*) FROM sensor_data_2025
+UNION ALL
+SELECT '2026 Partition' as name, count(*) FROM sensor_data_2026;
+
+
+
+
+
+
+
+
+
+-- This scans ONLY the 2026 partition (skipping 500,000 rows in 2025)
+EXPLAIN ANALYZE 
+SELECT avg(reading) 
+FROM sensor_data 
+WHERE recorded_at >= '2026-06-01' AND recorded_at < '2026-07-01';
