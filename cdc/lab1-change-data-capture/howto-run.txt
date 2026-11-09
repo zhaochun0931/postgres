@@ -1,0 +1,53 @@
+docker exec -it cdc_postgres psql -U postgres -d mydb
+
+
+
+
+
+docker exec -it cdc_postgres bash
+
+psql -U postgres -d mydb
+
+-- 1. 创建测试业务表
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(100),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. 设置 REPLICA IDENTITY 为 FULL，保证 UPDATE/DELETE 时能获取整行旧值
+ALTER TABLE users REPLICA IDENTITY FULL;
+
+-- 3. 创建逻辑复制槽（使用 postgres 自带的 test_decoding 插件）
+SELECT * FROM pg_create_logical_replication_slot('rabbitmq_cdc_slot', 'test_decoding');
+
+
+
+
+
+python3 -m venv .venv
+
+
+source .venv/bin/activate
+
+deactivate
+
+
+
+
+pip install psycopg2-binary pika -i https://repo.huaweicloud.com/repository/pypi/simple/ --trusted-host repo.huaweicloud.com
+
+
+
+
+python3 cdc_worker.py
+
+
+
+
+
+INSERT INTO users (name, email) VALUES ('Alice', 'alice@example.com');
+UPDATE users SET email = 'alice_new@example.com' WHERE name = 'Alice';
+DELETE FROM users WHERE name = 'Alice';
+
