@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cdc-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: cdc_admin
+      POSTGRES_PASSWORD: cdc_password
+      POSTGRES_DB: cdc_db
+    ports:
+      - "5432:5432"
+    # 关键参数：开启 logical 级别 WAL，并分配复制槽与发送进程
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+      - "-c"
+      - "max_replication_slots=5"
+      - "-c"
+      - "max_wal_senders=5"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    networks:
+      - cdc_network
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: cdc-rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "5672:5672"     # AMQP 数据端口
+      - "15672:15672"   # Web 管理后台端口
+    volumes:
+      - ./rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - cdc_network
+
+  debezium:
+    image: quay.io/debezium/server:2.6
+    container_name: cdc-debezium
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    volumes:
+      # 直接挂载根目录下的单个文件到容器内预期的配置文件路径
+      - ./application.properties:/debezium/conf/application.properties:ro
+      - ./debezium-data:/debezium/data:rw
+    networks:
+      - cdc_network
+
+# 自定义独立网络
+networks:
+  cdc_network:
+    driver: bridge
